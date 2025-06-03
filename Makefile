@@ -1,4 +1,5 @@
 build:
+	npm install
 	rm -rf frontend/dist
 	npm run build
 
