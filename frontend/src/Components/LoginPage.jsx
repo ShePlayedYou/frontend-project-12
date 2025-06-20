@@ -21,12 +21,10 @@ const BuildLoginPage = () => {
     },
     onSubmit: async (values) => {
       try {
-        console.log(values, 'smth')
         const data = await handleLogin(values);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         setAuthError('');
-        console.log(data, 'data')
         dispatch(loginSuccess(data));
         navigate('/');
       } catch (err) {
