@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
-import { PageOne, PageTwo } from './Components/Pages.jsx';
+import { PrivatePage } from './Components/PrivateChat.jsx';
 import { Page404 } from './Components/Page404.jsx';
 import { LoginPage } from './Components/LoginPage.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, logout } from './slices/authSlice.js';
+import { Nav } from './Components/Nav.jsx';
 
 
 
@@ -44,21 +45,24 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={
-            <PageOneMain>
-              <PageOne />
-            </PageOneMain>
+    <div className='d-flex flex-column h-100'>
+      <BrowserRouter>
+        <Nav></Nav>
+        <Routes>
+          <Route path="/" element={
+              <PageOneMain>
+                <PrivatePage />
+              </PageOneMain>
+            } />
+          <Route path="login" element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
           } />
-        <Route path="login" element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-        } />
-        <Route path="*" element={<Page404 />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
