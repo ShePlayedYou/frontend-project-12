@@ -10,11 +10,10 @@ export default defineConfig({
         target: 'http://localhost:5001',
         changeOrigin: true,
       },
-      // Проксируем WebSocket соединения
       '/socket.io': {
-        target: 'ws://localhost:5003',
+        target: 'http://localhost:5001',
         ws: true,
-        rewriteWsOrigin: true,
+        changeOrigin: true,
       },
     },
   },

@@ -2,34 +2,42 @@ import { Button, Form } from "react-bootstrap";
 import { useFormik } from 'formik';
 import axios from "axios";
 import routes from '../routes.js';
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { setChannels, setCurrentChannel } from '../slices/channelsSlice.js';
-import { setMessages, setCurrentMessageId } from '../slices/messagesSlice.js';
+import { setMessages, addMessage, setCurrentMessageId } from '../slices/messagesSlice.js';
 import ChannelsList from './ChannelsList.jsx'
 import MessagesPanel from './MessagesPanel.jsx'
+import { useSocket } from '../contexts/SocketContext.jsx';
+import { fetchChannels, fetchMessages } from '../API/api.js'
 
 const BuildPrivatePage = () => {
     
     const dispatch = useDispatch();
+    const socket = useSocket();
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(token, 'token')
+
+        if (!socket) return;
+
+        const handleNewMessage = (msg) => {
+        dispatch(addMessage(msg));
+        };
+
+        socket.on('newMessage', handleNewMessage);
+          
+
         const getData = async () => {
             try {
-                const response = await axios.get(routes.getChannels(), {
-                    headers: {
-                      'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const response = await fetchChannels(token)
                 dispatch(setChannels(response.data));
                 if (response.data.length > 0) {
                     dispatch(setCurrentChannel(response.data[0]));
-                    const messagesResponse = await axios.get(routes.getMessages(), {
-                        headers: { Authorization: `Bearer ${token}` },
-                      });
-                      console.log(messagesResponse.data, 'messagesResponse')
+
+                    const messagesResponse = await fetchMessages(token)
+
                     dispatch(setMessages(messagesResponse.data));
                   }
               } catch (err) {
@@ -38,12 +46,31 @@ const BuildPrivatePage = () => {
             }
         }
         getData();
-      }, [dispatch]);
+        return () => {
+            socket.off('newMessage', handleNewMessage);
+          };
+      }, [socket, dispatch]);
+
 
       const handleChannelSelect = (channel) => {
         console.log('Выбран канал:', channel.id);
         dispatch(setCurrentChannel(channel));
       };
+
+
+      const handleSendMessage = async (message) => {
+        console.log(message, ' this is new message')
+        const token = localStorage.getItem('token');
+        try {
+                await axios.post(routes.sendMessage(), message, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                },
+            });
+        } catch (err) {
+            console.log(err, 'err message send')
+        }
+      }
 
 
 
@@ -62,7 +89,7 @@ const BuildPrivatePage = () => {
                 </div>
             <div className="col p-0 h-100">
                 <div className="d-flex flex-column h-100">
-                <MessagesPanel></MessagesPanel>
+                <MessagesPanel onSendMessage={handleSendMessage}></MessagesPanel>
                 </div>
             </div>
         </div>

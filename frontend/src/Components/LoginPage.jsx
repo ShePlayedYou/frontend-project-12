@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate, Link } from 'react-router-dom';
-import handleLogin from '../API/auth.js'
+import { handleLogin } from '../API/api.js'
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../slices/authSlice.js';
 

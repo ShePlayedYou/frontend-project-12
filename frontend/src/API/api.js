@@ -2,7 +2,7 @@ import axios from 'axios';
 import routes from '../routes.js';
 
 
-const handleLogin = async (value) => {
+export const handleLogin = async (value) => {
   try {
     const response = await axios.post(routes.loginPath(), {
         username: value.username,
@@ -14,4 +14,12 @@ const handleLogin = async (value) => {
   }
 };
 
-export default handleLogin;
+export const fetchChannels = (token) =>
+  axios.get(routes.getChannels(), {
+    headers: { Authorization: `Bearer ${token}` },
+});
+  
+export const fetchMessages = (token) =>
+  axios.get(routes.getMessages(), {
+    headers: { Authorization: `Bearer ${token}` },
+});

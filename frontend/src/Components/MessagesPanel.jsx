@@ -2,23 +2,36 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
+import { useRef, useEffect } from 'react';
 
-const MessagesPanel = () => {
+const MessagesPanel = ({ onSendMessage } ) => {
+
   const currentChannelId = useSelector((state) => state.initChannels.currentChannel); //1
   const messages = useSelector((state) => state.initMessages.messages); //[m]
-  console.log(messages, 'messages')
   const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id); //[m=1]
-  console.log(currentMessages, 'currentMessages')
+
+  useEffect(() => {
+    const container = document.getElementById('messages-box');
+    const last = container?.lastElementChild;
+    if (last) {
+      last.scrollIntoView({ behavior: 'auto' });
+    }
+  }, [currentMessages.length, currentChannelId]);
+
 
   const formik = useFormik({
     initialValues: { message: '' },
-    onSubmit: (values, { resetForm }) => {
-      // тут может быть dispatch(addMessage(...)) или axios.post(...)
+    onSubmit: async (values, { resetForm }) => {
       try {
-        console.log(values)
+        const newMessage = {
+            body: values.message,
+            channelId: currentChannelId.id,
+            username: localStorage.getItem('username'),
+        }
+        await onSendMessage(newMessage)
         resetForm()
       } catch (err) {
-        console.log('error')
+        console.log('Error sending message', err)
       }
     },
   });
@@ -31,7 +44,7 @@ const MessagesPanel = () => {
 
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {currentMessages.map(msg => (
-          <div key={msg.id}>
+          <div key={msg.id} className="text-break mb-2">
             <b>{msg.username}</b>: {msg.body}
           </div>
         ))}
@@ -51,7 +64,7 @@ const MessagesPanel = () => {
               required
             />
             <Button type="submit" variant="" className="text-primary btn btn-group-vertical">
-                <i class="bi bi-send-fill"></i>
+                <i className="bi bi-send-fill"></i>
             </Button>
           </div>
         </Form>

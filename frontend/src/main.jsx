@@ -5,11 +5,14 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from './slices/indexStore.js';
 import App from './App.jsx'
+import { SocketProvider } from './contexts/SocketContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <SocketProvider>
+        <App />
+      </SocketProvider>
     </Provider>
-  </StrictMode>,
+  </StrictMode>
 )
