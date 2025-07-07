@@ -9,6 +9,9 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     const newSocket = io('/', {
       path: '/socket.io',
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
     });
 
     setSocket(newSocket);

@@ -5,4 +5,7 @@ export default {
   getChannels: () => [apiPath, 'channels'].join('/'),
   getMessages: () => [apiPath, 'messages'].join('/'),
   sendMessage: () => [apiPath, 'messages'].join('/'),
+  createChannel: () => [apiPath, 'channels'].join('/'),
+  editChannel: (id) => [apiPath, 'channels', id].join('/'),
+  removeChannel: (id) => [apiPath, 'channels', id].join('/')
 };

@@ -6,6 +6,8 @@ import { useRef, useEffect } from 'react';
 
 const MessagesPanel = ({ onSendMessage } ) => {
 
+  const inputRef = useRef(null);
+
   const currentChannelId = useSelector((state) => state.initChannels.currentChannel); //1
   const messages = useSelector((state) => state.initMessages.messages); //[m]
   const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id); //[m=1]
@@ -13,6 +15,7 @@ const MessagesPanel = ({ onSendMessage } ) => {
   useEffect(() => {
     const container = document.getElementById('messages-box');
     const last = container?.lastElementChild;
+    inputRef.current?.focus();
     if (last) {
       last.scrollIntoView({ behavior: 'auto' });
     }
@@ -21,7 +24,7 @@ const MessagesPanel = ({ onSendMessage } ) => {
 
   const formik = useFormik({
     initialValues: { message: '' },
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         const newMessage = {
             body: values.message,
@@ -32,6 +35,9 @@ const MessagesPanel = ({ onSendMessage } ) => {
         resetForm()
       } catch (err) {
         console.log('Error sending message', err)
+      }
+      finally {
+      setSubmitting(false);
       }
     },
   });
@@ -54,6 +60,8 @@ const MessagesPanel = ({ onSendMessage } ) => {
         <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2">
           <div className="input-group has-validation">
             <input
+              ref={inputRef}
+              disabled={formik.isSubmitting}
               onChange={formik.handleChange}
               value={formik.values.message}
               name="message"
@@ -63,7 +71,7 @@ const MessagesPanel = ({ onSendMessage } ) => {
               className="border-0 p-0 ps-2 form-control"
               required
             />
-            <Button type="submit" variant="" className="text-primary btn btn-group-vertical">
+            <Button type="submit" variant="" className="text-primary btn btn-group-vertical" disabled={formik.isSubmitting}>
                 <i className="bi bi-send-fill"></i>
             </Button>
           </div>

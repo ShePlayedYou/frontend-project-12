@@ -1,22 +1,37 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
+import DropdownChannelsList from './DropdownChannelsList.jsx'
 
-const ChannelsList = ({ onChannelSelect }) => {
+const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
   const channels = useSelector((state) => state.initChannels.channels);
   const curChannel = useSelector((state) => state.initChannels.currentChannel)
-  console.log(curChannel, 'curChannel')
 
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels.map((channel) => (
         <li key={channel.id} className="nav-item w-100">
+          { channel.removable ?
+          <DropdownChannelsList
+            onRename={() => onRename(channel)}
+            onRemove={() => onRemove(channel)}
+            isActive={channel.id === curChannel?.id}
+            onClick={() => onChannelSelect(channel)}
+          >
+            {channel.name}
+          </DropdownChannelsList>
+          :
           <button
             type="button"
             className={`w-100 rounded-0 text-start btn ${channel.id === curChannel?.id ? 'btn-secondary' : ''}`}
             onClick={() => onChannelSelect(channel)}
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
           >
             <span className="me-1">#</span>{channel.name}
           </button>
+          }
         </li>
       ))}
     </ul>
