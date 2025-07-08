@@ -1,0 +1,84 @@
+{
+    "loginTitle": "Войти",
+    "loginUsername": "Ваш ник",
+    "loginPassword": "Ваш пароль",
+    "logInButton": "Войти",
+    "doNotHaveAccount": "Нет аккаунта?",
+    "registerLink": "Регистрация",
+    "logInError": "Неверный логин или пароль",
+
+    "logOutButton": "Выйти",
+
+    "register": {
+        "title": "Регистрация",
+        "imgAlt": "Логин",
+        "usernameLabel": "Имя пользователя",
+        "usernamePlaceholder": "Имя пользователя",
+        "passwordLabel": "Пароль",
+        "passwordPlaceholder": "Пароль",
+        "repeatPasswordLabel": "Подтвердите пароль",
+        "repeatPasswordPlaceholder": "Подтвердите пароль",
+        "submit": "Зарегистрироваться"
+  },
+
+  "registerErrors": {
+        "usernameLength": "От 3 до 20 символов",
+        "passwordLength": "Минимум 6 символов",
+        "required": "Обязательное поле",
+        "passwordsMustMatch": "Пароли должны совпадать",
+        "userExists": "Такой пользователь уже существует"
+  },
+
+    "privateChat": {
+        "channels": "Каналы"
+    },
+
+    "MessagesPanel": {
+        "enterMessageForm": "Введите сообщение..."
+    },
+
+    "channelsDropdown": {
+        "rename": "Переименовать",
+        "delete": "Удалить"
+    },
+
+    "modalsGeneralButton": {
+        "cancel": "Отменить",
+        "submit": "Отправить",
+        "submitting": "Отправка..."
+    },
+
+    "modalsGeneral": {
+        "validation": {
+            "minMax": "От 3 до 20 символов",
+            "required": "Обязательное поле",
+            "unique": "Должно быть уникальным"
+        }
+    },
+
+    "createChannelModal": {
+        "title": "Добавить канал",
+        "inputPlaceholder": "Введите название канала...",
+        "inputAriaLabel": "Новое название"
+        },
+
+    "renameChannelModal": {
+        "title": "Переименовать канал",
+        "inputPlaceholder": "Введите название канала..."
+        },
+
+    "deleteChannelModal": {
+        "title": "Удалить канал",
+        "confirmationText": "Уверены?",
+        "deleteButton": "Удалить",
+        "processing": "Удаление..."
+        },
+
+    "page404": {
+        "pageNotFound": "Страница не найдена",
+        "redirectHint": "Но вы можете перейти",
+        "redirectHintLink": "на главную страницу"
+        }
+    }
+
+

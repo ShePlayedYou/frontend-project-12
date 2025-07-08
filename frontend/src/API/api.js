@@ -2,7 +2,7 @@ import axios from 'axios';
 import routes from '../routes.js';
 
 
-export const handleLogin = async (value) => {
+export const handleLogin = async (value, t) => {
   try {
     const response = await axios.post(routes.loginPath(), {
         username: value.username,
@@ -10,11 +10,11 @@ export const handleLogin = async (value) => {
       });
     return response.data;
   } catch (err) {
-    throw new Error('Неверный логин или пароль');
+    throw new Error(t('logInError'));
   }
 };
 
-export const handleReg = async (value) => {
+export const handleReg = async (value, t) => {
   try {
     const response = await axios.post(routes.regPath(), {
         username: value.username,
@@ -22,7 +22,7 @@ export const handleReg = async (value) => {
       });
     return response.data;
   } catch (err) {
-    throw new Error('Такой пользователь уже существует');
+    throw new Error(t('registerErrors.userExists'));
   }
 };
 

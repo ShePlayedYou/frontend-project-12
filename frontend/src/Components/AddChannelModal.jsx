@@ -3,43 +3,43 @@ import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../slices/channelsSlice.js';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
-
-  const schema = (existingChannelsNames) => Yup.object().shape({
-   name: Yup.string()
-     .min(3, 'От 3 до 20 символов')
-     .max(20, 'От 3 до 20 символов')
-     .required('Обязательное поле')
-     .test(
-        'unique',
-        'Должно быть уникальным',
-        (value) => !existingChannelsNames.includes(value)
-      ),
- });
-
-  const channels = useSelector((state) => state.initChannels.channels); //[m]
+  const channels = useSelector((state) => state.initChannels.channels);
   const existingChannelsNames = channels.map((c) => c.name);
+
+  const schema = (existingNames) => Yup.object().shape({
+    name: Yup.string()
+      .min(3, t('modalsGeneral.validation.minMax'))
+      .max(20, t('modalsGeneral.validation.minMax'))
+      .required(t('modalsGeneral.validation.required'))
+      .test(
+        'unique',
+        t('modalsGeneral.validation.unique'),
+        (value) => !existingNames.includes(value)
+      ),
+  });
+
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: schema(existingChannelsNames),
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const newChannel = {
-          name: values.name
-        }
-        const response = await onChannelCreate(newChannel)
+        const newChannel = { name: values.name };
+        const response = await onChannelCreate(newChannel);
         dispatch(setCurrentChannel(response.data));
         resetForm();
         onClose();
-      }
-      catch (err) {
-        console.log('Error adding channel', err)
-      }
-      finally {
-      setSubmitting(false);
+      } catch (err) {
+        console.log('Error adding channel', err);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -47,10 +47,10 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   return (
     <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('createChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate className="" onSubmit={formik.handleSubmit}>
+        <Form noValidate onSubmit={formik.handleSubmit}>
           <div>
             <input
               onChange={formik.handleChange}
@@ -58,21 +58,31 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
               value={formik.values.name}
               name="name"
               type="text"
-              placeholder="Введите название канала..."
-              aria-label="Новое название"
+              placeholder={t('createChannelModal.inputPlaceholder')}
+              aria-label={t('createChannelModal.inputAriaLabel')}
               className="mb-2 form-control"
               required
             />
             <label htmlFor="name" className="visually-hidden"></label>
-            {formik.touched.name && formik.errors.name ? (
+            {formik.errors.name && (
               <div className="text-danger">{formik.errors.name}</div>
-            ) : null}
+            )}
             <div className="d-flex justify-content-end">
-              <Button type="button" className="me-2 btn btn-secondary" onClick={onClose}>
-                Отменить
+              <Button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={onClose}
+              >
+                {t('modalsGeneralButton.cancel')}
               </Button>
-              <Button type="submit" className="btn btn-primary" onSubmit={formik.handleSubmit} disabled={formik.isSubmitting}>
-                {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
+              <Button
+                type="submit"
+                className="btn btn-primary"
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting
+                  ? t('modalsGeneralButton.submitting')
+                  : t('modalsGeneralButton.submit')}
               </Button>
             </div>
           </div>

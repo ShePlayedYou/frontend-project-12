@@ -1,32 +1,34 @@
 import { Button, Modal, Form } from "react-bootstrap";
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
 const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
-
+  const { t } = useTranslation();
   const inputRef = useRef(null);
+
   useEffect(() => {
-  if (inputRef.current) {
-        inputRef.current.focus();
-        inputRef.current.select();
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
     }
   }, [channel.name]);
 
   const schema = (existingChannelsNames) => Yup.object().shape({
-   name: Yup.string()
-     .min(3, 'От 3 до 20 символов')
-     .max(20, 'От 3 до 20 символов')
-     .required('Обязательное поле')
-     .test(
+    name: Yup.string()
+      .min(3, t('modalsGeneral.validation.minMax'))
+      .max(20, t('modalsGeneral.validation.minMax'))
+      .required(t('modalsGeneral.validation.required'))
+      .test(
         'unique',
-        'Должно быть уникальным',
+        t('modalsGeneral.validation.unique'),
         (value) => !existingChannelsNames.includes(value)
       ),
- });
+  });
 
-  const channels = useSelector((state) => state.initChannels.channels); //[m]
+  const channels = useSelector((state) => state.initChannels.channels);
   const existingChannelsNames = channels.map((c) => c.name);
 
   const formik = useFormik({
@@ -36,18 +38,14 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
     validateOnBlur: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        const newChannelName = {
-          name: values.name
-        }
-        await onChannelRename(newChannelName, channel)
+        const newChannelName = { name: values.name };
+        await onChannelRename(newChannelName, channel);
         resetForm();
         onClose();
-      }
-      catch (err) {
-        console.log('Error adding channel', err)
-      }
-      finally {
-      setSubmitting(false);
+      } catch (err) {
+        console.log('Error renaming channel', err);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -55,10 +53,10 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
   return (
     <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('renameChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate className="" onSubmit={formik.handleSubmit}>
+        <Form noValidate onSubmit={formik.handleSubmit}>
           <div>
             <input
               ref={inputRef}
@@ -67,8 +65,8 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               value={formik.values.name}
               name="name"
               type="text"
-              placeholder={"Введите название канала..."}
-              aria-label="Новое название"
+              placeholder={t('renameChannelModal.inputPlaceholder')}
+              aria-label={t('renameChannelModal.inputPlaceholder')}
               className="mb-2 form-control"
               required
             />
@@ -77,11 +75,22 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               <div className="text-danger">{formik.errors.name}</div>
             ) : null}
             <div className="d-flex justify-content-end">
-              <Button type="button" className="me-2 btn btn-secondary" onClick={onClose}>
-                Отменить
+              <Button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={onClose}
+              >
+                {t('modalsGeneralButton.cancel')}
               </Button>
-              <Button type="submit" className="btn btn-primary" onSubmit={formik.handleSubmit} disabled={formik.isSubmitting}>
-                {formik.isSubmitting ? 'Отправка...' : 'Отправить'}
+              <Button
+                type="submit"
+                className="btn btn-primary"
+                onSubmit={formik.handleSubmit}
+                disabled={formik.isSubmitting}
+              >
+                {formik.isSubmitting
+                  ? t('modalsGeneralButton.submitting')
+                  : t('modalsGeneralButton.submit')}
               </Button>
             </div>
           </div>

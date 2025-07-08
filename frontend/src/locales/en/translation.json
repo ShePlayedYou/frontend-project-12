@@ -1,0 +1,82 @@
+{
+  "loginTitle": "Log In",
+  "loginUsername": "Your username",
+  "loginPassword": "Your password",
+  "logInButton": "Log In",
+  "doNotHaveAccount": "Don't have an account?",
+  "registerLink": "Sign Up",
+  "logInError": "Invalid username or password",
+
+  "logOutButton": "Log Out",
+
+  "register": {
+    "title": "Registration",
+    "imgAlt": "Login",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Username",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Password",
+    "repeatPasswordLabel": "Confirm password",
+    "repeatPasswordPlaceholder": "Confirm password",
+    "submit": "Sign Up"
+  },
+
+  "registerErrors": {
+    "usernameLength": "From 3 to 20 characters",
+    "passwordLength": "At least 6 characters",
+    "required": "Required field",
+    "passwordsMustMatch": "Passwords must match",
+    "userExists": "This user already exists"
+  },
+
+  "privateChat": {
+    "channels": "Channels"
+  },
+
+  "MessagesPanel": {
+    "enterMessageForm": "Enter a message..."
+  },
+
+  "channelsDropdown": {
+    "rename": "Rename",
+    "delete": "Delete"
+  },
+
+  "modalsGeneralButton": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "submitting": "Submitting..."
+  },
+
+  "modalsGeneral": {
+    "validation": {
+      "minMax": "From 3 to 20 characters",
+      "required": "Required field",
+      "unique": "Must be unique"
+    }
+  },
+
+  "createChannelModal": {
+    "title": "Add Channel",
+    "inputPlaceholder": "Enter channel name...",
+    "inputAriaLabel": "New name"
+  },
+
+  "renameChannelModal": {
+    "title": "Rename Channel",
+    "inputPlaceholder": "Enter channel name..."
+  },
+
+  "deleteChannelModal": {
+    "title": "Delete Channel",
+    "confirmationText": "Are you sure?",
+    "deleteButton": "Delete",
+    "processing": "Deleting..."
+  },
+
+  "page404": {
+  "pageNotFound": "Page not found",
+  "redirectHint": "But you can go to the",
+  "redirectHintLink": "main page"
+  }
+}

@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import DropdownChannelsList from './DropdownChannelsList.jsx'
+import { useTranslation } from 'react-i18next';
 
 const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
+  const { t } = useTranslation();
   const channels = useSelector((state) => state.initChannels.channels);
   const curChannel = useSelector((state) => state.initChannels.currentChannel)
+
 
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
@@ -15,6 +18,7 @@ const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
             onRemove={() => onRemove(channel)}
             isActive={channel.id === curChannel?.id}
             onClick={() => onChannelSelect(channel)}
+            t={t}
           >
             {channel.name}
           </DropdownChannelsList>

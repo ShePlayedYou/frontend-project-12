@@ -1,8 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../slices/authSlice.js';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const BuildNav = () => {
+    const { t } = useTranslation();
 
     const { isAuthenticated, username } = useSelector((state) => state.auth);
     const navigate = useNavigate();
@@ -20,7 +22,8 @@ return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
             <a className="navbar-brand" href="/">Hexlet Chat</a>
-            {isAuthenticated && <button type="button" onClick={handleLogout} className="btn btn-primary">Выйти</button>}
+            {isAuthenticated && <button type="button" onClick={handleLogout} className="btn btn-primary">{t('logOutButton')}
+</button>}
         </div>
 
     </nav>

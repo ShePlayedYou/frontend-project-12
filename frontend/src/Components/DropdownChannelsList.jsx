@@ -1,7 +1,7 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 
-const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove }) => (
+const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove, t }) => (
   <Dropdown className="d-flex dropdown btn-group">
     <Button
       type="button"
@@ -25,8 +25,8 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove 
     />
 
     <Dropdown.Menu>
-      <Dropdown.Item onClick={onRename}>Переименовать</Dropdown.Item>
-      <Dropdown.Item onClick={onRemove}>Удалить</Dropdown.Item>
+      <Dropdown.Item onClick={onRename}>{t('channelsDropdown.rename')}</Dropdown.Item>
+      <Dropdown.Item onClick={onRemove}>{t('channelsDropdown.delete')}</Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
 );

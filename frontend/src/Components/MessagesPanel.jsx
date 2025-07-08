@@ -1,10 +1,11 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MessagesPanel = ({ onSendMessage } ) => {
+  const { t } = useTranslation();
 
   const inputRef = useRef(null);
 
@@ -66,7 +67,7 @@ const MessagesPanel = ({ onSendMessage } ) => {
               value={formik.values.message}
               name="message"
               type="text"
-              placeholder="Введите сообщение..."
+              placeholder={t('MessagesPanel.enterMessageForm')}
               aria-label="Новое сообщение"
               className="border-0 p-0 ps-2 form-control"
               required

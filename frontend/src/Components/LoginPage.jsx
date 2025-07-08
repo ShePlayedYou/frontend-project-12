@@ -5,9 +5,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { handleLogin } from '../API/api.js'
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../slices/authSlice.js';
+import { useTranslation } from 'react-i18next';
 
 
 const BuildLoginPage = () => {
+  const { t } = useTranslation();
 
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const BuildLoginPage = () => {
     },
     onSubmit: async (values) => {
       try {
-        const data = await handleLogin(values);
+        const data = await handleLogin(values, t);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         setAuthError('');
@@ -47,7 +49,7 @@ const BuildLoginPage = () => {
                 </div>
 
                 <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-md-0">
-                    <h1 className="text-center mb-4">Войти</h1>
+                    <h1 className="text-center mb-4">{t('loginTitle')}</h1>
                     <div className="form-floating mb-3">
                     <input
                         onChange={formik.handleChange} 
@@ -56,11 +58,11 @@ const BuildLoginPage = () => {
                         autoComplete="username"
                         required
                         type="text"
-                        placeholder="Ваш ник"
+                        placeholder={t('loginUsername')}
                         className="form-control"
                         id="username"
                     />
-                    <label htmlFor="username">Ваш ник</label>
+                    <label htmlFor="username">{t('loginUsername')}</label>
                     </div>
                     <div className="form-floating mb-4">
                     <input
@@ -70,14 +72,14 @@ const BuildLoginPage = () => {
                         autoComplete="current-password"
                         required
                         type="password"
-                        placeholder="Пароль"
+                        placeholder={t('loginPassword')}
                         className="form-control"
                         id="password"
                     />
-                    <label className="form-label" htmlFor="password">Ваш пароль</label>
+                    <label className="form-label" htmlFor="password">{t('loginPassword')}</label>
                     </div>
-                    <Button type="submit" className="w-100 mb-3 btn btn-primary">
-                        Войти
+                    <Button type="submit" className="w-100 mb-3" variant="outline-primary">
+                        {t('logInButton')}
                     </Button>
                     {authError && (
                     <div className="text-danger text-center mt-2" role="alert">
@@ -89,8 +91,8 @@ const BuildLoginPage = () => {
             </div>
                 <div className="card-footer p-4">
                     <div className="text-center">
-                        <span>Нет аккаунта? </span>
-                        <Link to="/signup">Регистрация</Link>
+                        <span>{t('doNotHaveAccount')} </span>
+                        <Link to="/signup">{t('registerLink')} </Link>
                     </div>
                 </div>
             </div>

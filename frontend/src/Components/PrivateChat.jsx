@@ -12,9 +12,11 @@ import RemoveChannelModal from './RemoveChannelModal.jsx'
 import useMessagesSocket from '../Hooks/useMessagesSocket.js';
 import useChannelsSocket from '../Hooks/useChannelsSocket.js';
 import useInitialDataLoad from '../Hooks/useInitialDataLoad.js';
+import { useTranslation } from 'react-i18next';
 
 
 const BuildPrivatePage = () => {
+    const { t } = useTranslation();
     
     const dispatch = useDispatch();
 
@@ -142,7 +144,7 @@ const BuildPrivatePage = () => {
         <div className="row h-100 bg-white flex-md-row">
             <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
                 <div className="d-flex mt-0 justify-content-between align-items-center mb-2 ps-4 pe-2 p-4">
-                    <b>Каналы</b>
+                    <b>{t('privateChat.channels')}</b>
                     <Button onClick={openAddModal} type="button" variant="" className="p-0 text-primary btn-group-vertical">
                         <i className="bi bi-plus-square fs-4"></i>
                     </Button>
