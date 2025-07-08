@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { PrivatePage } from './Components/PrivateChat.jsx';
 import { Page404 } from './Components/Page404.jsx';
@@ -6,7 +6,7 @@ import { LoginPage } from './Components/LoginPage.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, logout } from './slices/authSlice.js';
 import { Nav } from './Components/Nav.jsx';
-
+import { RegPage } from './Components/Registration.jsx';
 
 
 function App() {
@@ -58,6 +58,11 @@ function App() {
               <PublicRoute>
                 <LoginPage />
               </PublicRoute>
+          } />
+          <Route path="signup" element={
+            <PublicRoute>
+              <RegPage />
+            </PublicRoute>
           } />
           <Route path="*" element={<Page404 />} />
         </Routes>

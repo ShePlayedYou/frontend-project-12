@@ -14,6 +14,18 @@ export const handleLogin = async (value) => {
   }
 };
 
+export const handleReg = async (value) => {
+  try {
+    const response = await axios.post(routes.regPath(), {
+        username: value.username,
+        password: value.password,
+      });
+    return response.data;
+  } catch (err) {
+    throw new Error('Такой пользователь уже существует');
+  }
+};
+
 export const fetchChannels = (token) =>
   axios.get(routes.getChannels(), {
     headers: { Authorization: `Bearer ${token}` },
