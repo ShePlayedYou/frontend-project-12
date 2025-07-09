@@ -7,4 +7,4 @@ build:
 	npm run build
 
 start:
-	npm start
+	npx start-server -s ./frontend/dist
