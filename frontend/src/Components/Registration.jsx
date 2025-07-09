@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { useFormik } from 'formik';
+import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { handleReg } from '../API/api.js'
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../slices/authSlice.js';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux'
+import { loginSuccess } from '../slices/authSlice.js'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
 
 const BuildRegPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const [regError, setRegError] = useState('');
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const [regError, setRegError] = useState('')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -26,7 +26,7 @@ const BuildRegPage = () => {
     repeatPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('registerErrors.passwordsMustMatch'))
       .required(t('registerErrors.required')),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -37,31 +37,32 @@ const BuildRegPage = () => {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        const data = await handleReg(values, t);
-        if (!data) return;
-        
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        setRegError('');
-        dispatch(loginSuccess(data));
-        navigate('/');
-      } catch (err) {
+        const data = await handleReg(values, t)
+        if (!data) return
+
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('username', data.username)
+        setRegError('')
+        dispatch(loginSuccess(data))
+        navigate('/')
+      }
+      catch (err) {
         console.log(err, 'err reg')
         setRegError(err.message)
       }
-    }
-  });
+    },
+  })
 
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center">
       <div className="col-12 col-md-8 col-xxl-6">
         <div className="card shadow-sm">
-          <div className='card-body row p-5'>
+          <div className="card-body row p-5">
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
               <img
                 src="/imgs/signup.jpg"
                 alt={t('register.imgAlt')}
-                className='rounded-circle'
+                className="rounded-circle"
                 style={{ height: '200px', objectFit: 'contain' }}
               />
             </div>
@@ -79,7 +80,7 @@ const BuildRegPage = () => {
                   required
                   type="text"
                   placeholder={t('register.usernamePlaceholder')}
-                  className={`form-control ${regError || formik.touched.username && formik.errors.username ? 'is-invalid' : ''}`}
+                  className={`form-control ${regError || (formik.touched.username && formik.errors.username) ? 'is-invalid' : ''}`}
                   id="username"
                 />
                 {formik.touched.username && formik.errors.username && (
@@ -101,7 +102,7 @@ const BuildRegPage = () => {
                   required
                   type="password"
                   placeholder={t('register.passwordPlaceholder')}
-                  className={`form-control ${regError || formik.touched.password && formik.errors.password ? 'is-invalid' : ''}`}
+                  className={`form-control ${regError || (formik.touched.password && formik.errors.password) ? 'is-invalid' : ''}`}
                   id="password"
                 />
                 {formik.touched.password && formik.errors.password && (
@@ -123,7 +124,7 @@ const BuildRegPage = () => {
                   required
                   type="password"
                   placeholder={t('register.repeatPasswordPlaceholder')}
-                  className={`form-control ${regError || formik.touched.repeatPassword && formik.errors.repeatPassword ? 'is-invalid' : ''}`}
+                  className={`form-control ${regError || (formik.touched.repeatPassword && formik.errors.repeatPassword) ? 'is-invalid' : ''}`}
                   id="repeatPassword"
                 />
                 {formik.touched.repeatPassword && formik.errors.repeatPassword && (
@@ -146,7 +147,7 @@ const BuildRegPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export const RegPage = () => BuildRegPage();
+export const RegPage = () => BuildRegPage()

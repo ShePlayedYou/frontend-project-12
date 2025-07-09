@@ -8,3 +8,5 @@ build:
 start:
 	npx start-server -s ./dist
 
+lint:
+	npx eslint .

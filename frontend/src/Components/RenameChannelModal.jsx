@@ -1,24 +1,24 @@
-import { Button, Modal, Form } from "react-bootstrap";
-import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import filter from 'leo-profanity';
+import { Button, Modal, Form } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import * as Yup from 'yup'
+import filter from 'leo-profanity'
 
 const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
-  const { t } = useTranslation();
-  const inputRef = useRef(null);
-  filter.loadDictionary('ru');
+  const { t } = useTranslation()
+  const inputRef = useRef(null)
+  filter.loadDictionary('ru')
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.select();
+      inputRef.current.focus()
+      inputRef.current.select()
     }
-  }, [channel.name]);
+  }, [channel.name])
 
-  const schema = (existingChannelsNames) => Yup.object().shape({
+  const schema = existingChannelsNames => Yup.object().shape({
     name: Yup.string()
       .min(3, t('modalsGeneral.validation.minMax'))
       .max(20, t('modalsGeneral.validation.minMax'))
@@ -26,12 +26,12 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
       .test(
         'unique',
         t('modalsGeneral.validation.unique'),
-        (value) => !existingChannelsNames.includes(value)
+        value => !existingChannelsNames.includes(value),
       ),
-  });
+  })
 
-  const channels = useSelector((state) => state.initChannels.channels);
-  const existingChannelsNames = channels.map((c) => c.name);
+  const channels = useSelector(state => state.initChannels.channels)
+  const existingChannelsNames = channels.map(c => c.name)
 
   const formik = useFormik({
     initialValues: { name: channel.name },
@@ -39,19 +39,21 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const filteredChannelName = filter.clean(values.name);
+      const filteredChannelName = filter.clean(values.name)
       try {
-        const newChannelName = { name: filteredChannelName };
-        await onChannelRename(newChannelName, channel);
-        resetForm();
-        onClose();
-      } catch (err) {
-        console.log('Error renaming channel', err);
-      } finally {
-        setSubmitting(false);
+        const newChannelName = { name: filteredChannelName }
+        await onChannelRename(newChannelName, channel)
+        resetForm()
+        onClose()
+      }
+      catch (err) {
+        console.log('Error renaming channel', err)
+      }
+      finally {
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -74,9 +76,11 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               required
             />
             <label htmlFor="name" className="visually-hidden"></label>
-            {formik.touched.name && formik.errors.name ? (
-              <div className="text-danger">{formik.errors.name}</div>
-            ) : null}
+            {formik.touched.name && formik.errors.name
+              ? (
+                  <div className="text-danger">{formik.errors.name}</div>
+                )
+              : null}
             <div className="d-flex justify-content-end">
               <Button
                 type="button"
@@ -100,7 +104,7 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default RenameChannelModal;
+export default RenameChannelModal

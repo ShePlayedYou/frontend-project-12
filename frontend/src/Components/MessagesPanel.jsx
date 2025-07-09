@@ -1,62 +1,68 @@
-import { useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import { useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity';
+import { useSelector } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import filter from 'leo-profanity'
 
+const MessagesPanel = ({ onSendMessage }) => {
+  const { t } = useTranslation()
+  filter.loadDictionary('ru')
 
-const MessagesPanel = ({ onSendMessage } ) => {
-  const { t } = useTranslation();
-  filter.loadDictionary('ru');
+  const inputRef = useRef(null)
 
-  const inputRef = useRef(null);
-
-  const currentChannelId = useSelector((state) => state.initChannels.currentChannel);
-  const messages = useSelector((state) => state.initMessages.messages);
-  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id);
+  const currentChannelId = useSelector(state => state.initChannels.currentChannel)
+  const messages = useSelector(state => state.initMessages.messages)
+  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id)
 
   useEffect(() => {
-    const container = document.getElementById('messages-box');
-    const last = container?.lastElementChild;
-    inputRef.current?.focus();
+    const container = document.getElementById('messages-box')
+    const last = container?.lastElementChild
+    inputRef.current?.focus()
     if (last) {
-      last.scrollIntoView({ behavior: 'auto' });
+      last.scrollIntoView({ behavior: 'auto' })
     }
-  }, [currentMessages.length, currentChannelId]);
-
+  }, [currentMessages.length, currentChannelId])
 
   const formik = useFormik({
     initialValues: { message: '' },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const filteredMessage = filter.clean(values.message);
+      const filteredMessage = filter.clean(values.message)
       try {
         const newMessage = {
-            body: filteredMessage,
-            channelId: currentChannelId.id,
-            username: localStorage.getItem('username'),
+          body: filteredMessage,
+          channelId: currentChannelId.id,
+          username: localStorage.getItem('username'),
         }
         await onSendMessage(newMessage)
         resetForm()
-      } catch (err) {
+      }
+      catch (err) {
         console.log('Error sending message', err)
       }
       finally {
-      setSubmitting(false);
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <>
       <div className="bg-light mb-4 p-3 shadow-sm small">
-        <p className="m-0"><b># {currentChannelId?.name}</b></p>
+        <p className="m-0">
+          <b>
+            #
+            {currentChannelId?.name}
+          </b>
+        </p>
       </div>
 
       <div id="messages-box" className="chat-messages overflow-auto px-5">
         {currentMessages.map(msg => (
           <div key={msg.id} className="text-break mb-2">
-            <b>{msg.username}</b>: {msg.body}
+            <b>{msg.username}</b>
+            :
+            {msg.body}
           </div>
         ))}
       </div>
@@ -77,13 +83,13 @@ const MessagesPanel = ({ onSendMessage } ) => {
               required
             />
             <Button type="submit" variant="" className="text-primary btn btn-group-vertical" disabled={formik.isSubmitting}>
-                <i className="bi bi-send-fill"></i>
+              <i className="bi bi-send-fill"></i>
             </Button>
           </div>
         </Form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MessagesPanel;
+export default MessagesPanel

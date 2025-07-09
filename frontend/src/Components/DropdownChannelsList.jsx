@@ -1,5 +1,5 @@
-import Dropdown from 'react-bootstrap/Dropdown';
-import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown'
+import Button from 'react-bootstrap/Button'
 
 const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove, t }) => (
   <Dropdown className="d-flex dropdown btn-group">
@@ -14,7 +14,8 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
         whiteSpace: 'nowrap',
       }}
     >
-      <span className="me-1">#</span>{children}
+      <span className="me-1">#</span>
+      {children}
     </Button>
 
     <Dropdown.Toggle
@@ -29,6 +30,6 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
       <Dropdown.Item onClick={onRemove}>{t('channelsDropdown.delete')}</Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
-);
+)
 
-export default DropdownChannelsList;
+export default DropdownChannelsList

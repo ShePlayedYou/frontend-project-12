@@ -1,21 +1,21 @@
-import { Button, Modal, Form } from "react-bootstrap";
-import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel } from '../slices/channelsSlice.js';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
+import { Button, Modal, Form } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCurrentChannel } from '../slices/channelsSlice.js'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import filter from 'leo-profanity'
 
 const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
-  const { t } = useTranslation();
-  filter.loadDictionary('ru');
+  const { t } = useTranslation()
+  filter.loadDictionary('ru')
 
-  const dispatch = useDispatch();
-  const channels = useSelector((state) => state.initChannels.channels);
-  const existingChannelsNames = channels.map((c) => c.name);
+  const dispatch = useDispatch()
+  const channels = useSelector(state => state.initChannels.channels)
+  const existingChannelsNames = channels.map(c => c.name)
 
-  const schema = (existingNames) => Yup.object().shape({
+  const schema = existingNames => Yup.object().shape({
     name: Yup.string()
       .min(3, t('modalsGeneral.validation.minMax'))
       .max(20, t('modalsGeneral.validation.minMax'))
@@ -23,9 +23,9 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
       .test(
         'unique',
         t('modalsGeneral.validation.unique'),
-        (value) => !existingNames.includes(value)
+        value => !existingNames.includes(value),
       ),
-  });
+  })
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -33,20 +33,22 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const filteredChannelName = filter.clean(values.name);
+      const filteredChannelName = filter.clean(values.name)
       try {
-        const newChannel = { name: filteredChannelName};
-        const response = await onChannelCreate(newChannel);
-        dispatch(setCurrentChannel(response.data));
-        resetForm();
-        onClose();
-      } catch (err) {
-        toast.error(t('toasterMessages.unknownError'));
-      } finally {
-        setSubmitting(false);
+        const newChannel = { name: filteredChannelName }
+        const response = await onChannelCreate(newChannel)
+        dispatch(setCurrentChannel(response.data))
+        resetForm()
+        onClose()
+      }
+      catch {
+        toast.error(t('toasterMessages.unknownError'))
+      }
+      finally {
+        setSubmitting(false)
       }
     },
-  });
+  })
 
   return (
     <Modal show={show} onHide={onClose} centered>
@@ -93,7 +95,7 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddChannelModal;
+export default AddChannelModal

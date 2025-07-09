@@ -1,70 +1,69 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSocket } from '../contexts/SocketContext.jsx'
-import { addChannel, renameChannel, removeChannel, setCurrentChannel } from '../slices/channelsSlice.js';
-
+import { addChannel, renameChannel, removeChannel, setCurrentChannel } from '../slices/channelsSlice.js'
 
 const useChannelsSocket = () => {
-  const socket = useSocket();
-  const dispatch = useDispatch();
-  
-  const channels = useSelector((state) => state.initChannels.channels);
-  const curChannel = useSelector((state) => state.initChannels.currentChannel)
-  const [removedChannelId, setRemovedChannelId] = useState(null);
+  const socket = useSocket()
+  const dispatch = useDispatch()
+
+  const channels = useSelector(state => state.initChannels.channels)
+  const curChannel = useSelector(state => state.initChannels.currentChannel)
+  const [removedChannelId, setRemovedChannelId] = useState(null)
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) return
 
     const handleNewChannel = (channel) => {
-      dispatch(addChannel(channel));
-    };
+      dispatch(addChannel(channel))
+    }
 
     const handleRenameChannel = (channel) => {
-      dispatch(renameChannel(channel));
-    };
+      dispatch(renameChannel(channel))
+    }
 
     const handleRemoveChannel = (channel) => {
-      dispatch(removeChannel(channel));
-      setRemovedChannelId(channel.id);
-    };
+      dispatch(removeChannel(channel))
+      setRemovedChannelId(channel.id)
+    }
 
     const handleSocketError = (error) => {
-      console.error('WebSocket error:', error);
-    };
+      console.error('WebSocket error:', error)
+    }
 
     const handleDisconnect = (reason) => {
-      console.warn('Socket disconnected:', reason);
-    };
+      console.warn('Socket disconnected:', reason)
+    }
 
     const handleReconnectFailed = () => {
-      console.error('Не удалось переподключиться к серверу');
-    };
+      console.error('Не удалось переподключиться к серверу')
+    }
 
-    socket.on('newChannel', handleNewChannel);
-    socket.on('renameChannel', handleRenameChannel);
-    socket.on('removeChannel', handleRemoveChannel);
-    socket.on('error', handleSocketError);
-    socket.on('disconnect', handleDisconnect);
-    socket.on('reconnect_failed', handleReconnectFailed);
+    socket.on('newChannel', handleNewChannel)
+    socket.on('renameChannel', handleRenameChannel)
+    socket.on('removeChannel', handleRemoveChannel)
+    socket.on('error', handleSocketError)
+    socket.on('disconnect', handleDisconnect)
+    socket.on('reconnect_failed', handleReconnectFailed)
 
     return () => {
-      socket.off('newChannel', handleNewChannel);
-      socket.on('renameChannel', handleRenameChannel);
-      socket.on('removeChannel', handleRemoveChannel);
-      socket.off('error', handleSocketError);
-      socket.off('disconnect', handleDisconnect);
-      socket.off('reconnect_failed', handleReconnectFailed);
-    };
-  }, [socket, dispatch]);
+      socket.off('newChannel', handleNewChannel)
+      socket.on('renameChannel', handleRenameChannel)
+      socket.on('removeChannel', handleRemoveChannel)
+      socket.off('error', handleSocketError)
+      socket.off('disconnect', handleDisconnect)
+      socket.off('reconnect_failed', handleReconnectFailed)
+    }
+  }, [socket, dispatch])
 
   useEffect(() => {
     if (removedChannelId && curChannel?.id === removedChannelId) {
-      const defChannel = channels[0];
+      const defChannel = channels[0]
       if (defChannel) {
-        dispatch(setCurrentChannel(defChannel));
+        dispatch(setCurrentChannel(defChannel))
       }
     }
-  }, [curChannel, channels, removedChannelId, dispatch]);
-};
+  }, [curChannel, channels, removedChannelId, dispatch])
+}
 
-export default useChannelsSocket;
+export default useChannelsSocket
