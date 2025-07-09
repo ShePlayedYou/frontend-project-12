@@ -78,5 +78,13 @@
   "pageNotFound": "Page not found",
   "redirectHint": "But you can go to the",
   "redirectHintLink": "main page"
-  }
+  },
+
+  "toasterMessages": {
+  "networkError": "Network error",
+  "channelCreated": "Channel created",
+  "unknownError": "Unknown error",
+  "renameChannel": "Channel renamed",
+  "removeChannel": "Channel removed"
+}
 }

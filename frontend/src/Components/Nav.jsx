@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 const BuildNav = () => {
     const { t } = useTranslation();
 
-    const { isAuthenticated, username } = useSelector((state) => state.auth);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
   

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../slices/channelsSlice.js';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   const { t } = useTranslation();
@@ -37,7 +38,7 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
         resetForm();
         onClose();
       } catch (err) {
-        console.log('Error adding channel', err);
+        toast.error(t('toasterMessages.unknownError'));
       } finally {
         setSubmitting(false);
       }

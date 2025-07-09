@@ -78,6 +78,13 @@
         "pageNotFound": "Страница не найдена",
         "redirectHint": "Но вы можете перейти",
         "redirectHintLink": "на главную страницу"
+        },
+    "toasterMessages": {
+        "networkError": "Ошибка сети",
+        "channelCreated": "Канал создан",
+        "unknownError": "Неизвестная ошибка",
+        "renameChannel": "Канал переименован",
+        "removeChannel": "Канал удалён"
         }
     }
 

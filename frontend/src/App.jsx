@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, logout } from './slices/authSlice.js';
 import { Nav } from './Components/Nav.jsx';
 import { RegPage } from './Components/Registration.jsx';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
 
   return (
     <div className='d-flex flex-column h-100'>
+      <ToastContainer />
       <BrowserRouter>
         <Nav></Nav>
         <Routes>

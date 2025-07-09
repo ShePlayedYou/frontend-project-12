@@ -38,6 +38,8 @@ const BuildRegPage = () => {
     onSubmit: async (values) => {
       try {
         const data = await handleReg(values, t);
+        if (!data) return;
+        
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         setRegError('');

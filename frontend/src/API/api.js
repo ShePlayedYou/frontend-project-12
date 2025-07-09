@@ -1,5 +1,6 @@
 import axios from 'axios';
 import routes from '../routes.js';
+import { toast } from 'react-toastify';
 
 
 export const handleLogin = async (value, t) => {
@@ -10,6 +11,10 @@ export const handleLogin = async (value, t) => {
       });
     return response.data;
   } catch (err) {
+    if (err.code === "ERR_NETWORK") {
+      toast.error(t('toasterMessages.networkError'));
+      return null;
+    }
     throw new Error(t('logInError'));
   }
 };
@@ -22,7 +27,15 @@ export const handleReg = async (value, t) => {
       });
     return response.data;
   } catch (err) {
-    throw new Error(t('registerErrors.userExists'));
+    console.log(err.code, 'err handleReg')
+    if (err.response?.status === 409) {
+      throw new Error(t('registerErrors.userExists'));
+    }
+
+    if (err.code === "ERR_NETWORK") {
+      toast.error(t('toasterMessages.networkError'));
+      return null;
+    }
   }
 };
 
