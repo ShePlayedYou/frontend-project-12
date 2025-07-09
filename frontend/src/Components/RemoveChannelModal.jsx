@@ -5,14 +5,12 @@ import { toast } from 'react-toastify';
 
 const RemoveChannelModal = ({ show, channel, onClose, onChannelRemove }) => {
   const { t } = useTranslation();
-  console.log('Вызвано модальное окно удаления канала')
 
   const [isDeleting, setState] = useState(false);
 
 
   const deleteChannel = async () => {
     try {
-        console.log('Удаляем канал')
         setState(true);
         await onChannelRemove(channel)
         onClose()
