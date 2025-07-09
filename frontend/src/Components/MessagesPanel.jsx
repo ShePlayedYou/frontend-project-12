@@ -12,9 +12,9 @@ const MessagesPanel = ({ onSendMessage } ) => {
 
   const inputRef = useRef(null);
 
-  const currentChannelId = useSelector((state) => state.initChannels.currentChannel); //1
-  const messages = useSelector((state) => state.initMessages.messages); //[m]
-  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id); //[m=1]
+  const currentChannelId = useSelector((state) => state.initChannels.currentChannel);
+  const messages = useSelector((state) => state.initMessages.messages);
+  const currentMessages = messages.filter(msg => msg.channelId === currentChannelId?.id);
 
   useEffect(() => {
     const container = document.getElementById('messages-box');
