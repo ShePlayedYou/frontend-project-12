@@ -5,7 +5,7 @@ install:
 build:
 	rm -rf frontend/dist
 	npm run build
-	ake -C frontend start
+	make -C frontend start
 
 start:
 	npx start-server -s ./frontend/dist
