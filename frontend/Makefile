@@ -1,9 +1,11 @@
 install:
 	npm ci
-
-start:
-	npx start-server -s ./frontend/dist
+	cd .. && npm ci
 
 build:
-	npm ci
-	vite build
+	rm -rf frontend/dist
+	npm run build
+
+start:
+	npx start-server -s ./dist
+
