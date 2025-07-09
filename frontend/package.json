@@ -11,6 +11,7 @@
     "start": "npx start-server -s ./frontend/dist"
   },
   "dependencies": {
+    "@hexlet/chat-server": "^2.0.4",
     "@reduxjs/toolkit": "^2.8.2",
     "@rollbar/react": "^0.12.1",
     "axios": "^1.10.0",
