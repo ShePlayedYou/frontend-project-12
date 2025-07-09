@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "install": "npm ci && cd .. && npm ci",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "npx start-server -s ./frontend/dist"
+    "start": "npx start-server -s ./dist"
   },
   "dependencies": {
     "@hexlet/chat-server": "^2.0.4",
