@@ -5,9 +5,11 @@ import { setCurrentChannel } from '../slices/channelsSlice.js';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 
 const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
 
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.initChannels.channels);
@@ -31,8 +33,9 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      const filteredChannelName = filter.clean(values.name);
       try {
-        const newChannel = { name: values.name };
+        const newChannel = { name: filteredChannelName};
         const response = await onChannelCreate(newChannel);
         dispatch(setCurrentChannel(response.data));
         resetForm();

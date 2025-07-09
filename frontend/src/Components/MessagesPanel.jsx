@@ -3,9 +3,12 @@ import { Form, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
+
 
 const MessagesPanel = ({ onSendMessage } ) => {
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
 
   const inputRef = useRef(null);
 
@@ -26,9 +29,10 @@ const MessagesPanel = ({ onSendMessage } ) => {
   const formik = useFormik({
     initialValues: { message: '' },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      const filteredMessage = filter.clean(values.message);
       try {
         const newMessage = {
-            body: values.message,
+            body: filteredMessage,
             channelId: currentChannelId.id,
             username: localStorage.getItem('username'),
         }

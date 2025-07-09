@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+import filter from 'leo-profanity';
 
 const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
+  filter.loadDictionary('ru');
 
   useEffect(() => {
     if (inputRef.current) {
@@ -37,8 +39,9 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      const filteredChannelName = filter.clean(values.name);
       try {
-        const newChannelName = { name: values.name };
+        const newChannelName = { name: filteredChannelName };
         await onChannelRename(newChannelName, channel);
         resetForm();
         onClose();
