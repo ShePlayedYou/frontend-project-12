@@ -1,6 +1,5 @@
 install:
-	npm ci
-	cd frontend && npm ci
+	make -C frontend install
 
 build:
 	rm -rf frontend/dist
