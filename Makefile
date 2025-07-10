@@ -1,10 +1,13 @@
-install:
-	npm ci
-	make -C frontend install
+install: 
+	npm ci 
+	cd frontend && npm ci
 
-build:
-	rm -rf frontend/dist
-	npm run build
+build: 
+	rm -rf frontend/dist 
+	cd frontend && npm run build
 
-start:
+start: 
 	npx start-server -s ./frontend/dist
+
+dev: 
+	cd frontend && npm run dev
