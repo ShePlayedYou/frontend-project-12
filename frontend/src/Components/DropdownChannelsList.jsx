@@ -25,9 +25,6 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
     >
       <span className="visually-hidden">{t('channelsDropdown.controlLabel')}</span>
     </Dropdown.Toggle>
-    <label htmlFor={`dropdown-toggle-${children}`} className="visually-hidden">
-      {t('channelsDropdown.controlLabel')}
-    </label>
 
     <Dropdown.Menu>
       <Dropdown.Item onClick={onRename}>{t('channelsDropdown.rename')}</Dropdown.Item>

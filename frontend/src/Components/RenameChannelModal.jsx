@@ -80,13 +80,13 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               onBlur={formik.handleBlur}
               value={formik.values.name}
               name="name"
+              id="name"
               type="text"
               placeholder={t('renameChannelModal.inputPlaceholder')}
-              aria-label={t('renameChannelModal.inputPlaceholder')}
               className="mb-2 form-control"
               required
             />
-            <label htmlFor="name" className="visually-hidden"></label>
+            <label htmlFor="name" className="visually-hidden">{t("renameChannelModal.inputLabel")}</label>
             {formik.touched.name && formik.errors.name
               ? (
                   <div className="text-danger">{formik.errors.name}</div>
