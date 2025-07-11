@@ -10,7 +10,9 @@ import filter from 'leo-profanity'
 const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
-  filter.loadDictionary('ru')
+  
+  filter.add(filter.getDictionary('en'))
+  filter.add(filter.getDictionary('fr'))
 
   useEffect(() => {
     if (show) {

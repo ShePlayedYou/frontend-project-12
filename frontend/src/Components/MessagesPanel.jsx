@@ -8,7 +8,9 @@ import filter from 'leo-profanity'
 
 const MessagesPanel = ({ onSendMessage }) => {
   const { t } = useTranslation()
-  filter.loadDictionary('ru')
+  
+  filter.add(filter.getDictionary('en'))
+  filter.add(filter.getDictionary('fr'))
 
   const inputRef = useRef(null)
 
