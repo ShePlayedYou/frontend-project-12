@@ -59,7 +59,8 @@
     "createChannelModal": {
         "title": "Добавить канал",
         "inputPlaceholder": "Введите название канала...",
-        "inputAriaLabel": "Новое название"
+        "inputAriaLabel": "Новое название",
+        "channelName": "Имя канала"
         },
 
     "renameChannelModal": {

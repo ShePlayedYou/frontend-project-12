@@ -69,7 +69,7 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
               className="mb-2 form-control"
               required
             />
-            <label htmlFor="name" className="visually-hidden"></label>
+            <label htmlFor="name" className="visually-hidden">{t('createChannelModal.channelName')}</label>
             {formik.errors.name && (
               <div className="text-danger">{formik.errors.name}</div>
             )}
