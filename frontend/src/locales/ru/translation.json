@@ -5,7 +5,7 @@
     "logInButton": "Войти",
     "doNotHaveAccount": "Нет аккаунта?",
     "registerLink": "Регистрация",
-    "logInError": "Неверный логин или пароль",
+    "logInError": "Неверные имя пользователя или пароль",
 
     "logOutButton": "Выйти",
 
