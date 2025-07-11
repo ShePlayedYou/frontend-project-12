@@ -39,7 +39,8 @@
 
     "channelsDropdown": {
         "rename": "Переименовать",
-        "delete": "Удалить"
+        "delete": "Удалить",
+        "controlLabel": "Управление каналом"
     },
 
     "modalsGeneralButton": {

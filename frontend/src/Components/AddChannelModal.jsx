@@ -10,9 +10,9 @@ import filter from 'leo-profanity'
 
 const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   const { t } = useTranslation()
-  
+
   filter.add(filter.getDictionary('en'))
-  filter.add(filter.getDictionary('fr'))
+  filter.add(filter.getDictionary('ru'))
 
   const dispatch = useDispatch()
   const channels = useSelector(state => state.initChannels.channels)

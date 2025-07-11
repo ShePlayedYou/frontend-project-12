@@ -17,11 +17,6 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
       <span className="me-1">#</span>
       {children}
     </Button>
-
-    <label htmlFor={`dropdown-toggle-${children}`} className="visually-hidden">
-      Управление каналом
-    </label>
-
     <Dropdown.Toggle
       id={`dropdown-toggle-${children}`}
       split
@@ -30,6 +25,9 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
     >
       <span className="visually-hidden">{t('channelsDropdown.controlLabel')}</span>
     </Dropdown.Toggle>
+    <label htmlFor={`dropdown-toggle-${children}`} className="visually-hidden">
+      {t('channelsDropdown.controlLabel')}
+    </label>
 
     <Dropdown.Menu>
       <Dropdown.Item onClick={onRename}>{t('channelsDropdown.rename')}</Dropdown.Item>
