@@ -13,11 +13,13 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
   filter.loadDictionary('ru')
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-      inputRef.current.select()
+    if (show) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+        inputRef.current?.select()
+      }, 0)
     }
-  }, [channel.name])
+  }, [show])
 
   const schema = existingChannelsNames => Yup.object().shape({
     name: Yup.string()

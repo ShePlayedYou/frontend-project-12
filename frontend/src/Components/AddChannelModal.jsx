@@ -1,6 +1,7 @@
 import { Button, Modal, Form } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
+import { useRef, useEffect } from 'react'
 import { setCurrentChannel } from '../slices/channelsSlice.js'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +15,11 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   const dispatch = useDispatch()
   const channels = useSelector(state => state.initChannels.channels)
   const existingChannelsNames = channels.map(c => c.name)
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+      inputRef.current?.focus()
+    }, [])
 
   const schema = existingNames => Yup.object().shape({
     name: Yup.string()
@@ -64,6 +70,7 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
         <Form noValidate onSubmit={formik.handleSubmit}>
           <div>
             <input
+              ref={inputRef}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.name}
