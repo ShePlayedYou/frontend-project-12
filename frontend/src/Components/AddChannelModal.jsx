@@ -37,7 +37,7 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
       try {
         const newChannel = { name: filteredChannelName }
         const response = await onChannelCreate(newChannel)
-        toast.success(<div role="alert">{t('toasterMessages.channelCreated')}</div>);
+        toast.success(<span>{t('toasterMessages.channelCreated')}</span>);
         dispatch(setCurrentChannel(response.data))
         resetForm()
         onClose()

@@ -44,16 +44,16 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
       try {
         const newChannelName = { name: filteredChannelName }
         await onChannelRename(newChannelName, channel)
-        toast.success(<div role="alert">{t('toasterMessages.renameChannel')}</div>);
+        toast.success(t('toasterMessages.renameChannel'));
         resetForm()
         onClose()
       }
       catch (err) {
         if (err.code === 'ERR_NETWORK') {
-          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
+          toast.error(t('toasterMessages.networkError'));
         } 
         else {
-          toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
+          toast.error(t('toasterMessages.unknownError'))
         }
       }
       finally {
