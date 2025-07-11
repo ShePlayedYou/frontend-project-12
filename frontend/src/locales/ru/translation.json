@@ -1,7 +1,7 @@
 {
     "loginTitle": "Войти",
     "loginUsername": "Ваш ник",
-    "loginPassword": "Ваш пароль",
+    "loginPassword": "Пароль",
     "logInButton": "Войти",
     "doNotHaveAccount": "Нет аккаунта?",
     "registerLink": "Регистрация",
