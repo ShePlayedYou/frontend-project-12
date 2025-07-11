@@ -78,7 +78,6 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
               name="name"
               type="text"
               placeholder={t('createChannelModal.inputPlaceholder')}
-              aria-label={t('createChannelModal.inputAriaLabel')}
               className="mb-2 form-control"
               required
             />
