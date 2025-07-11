@@ -134,9 +134,6 @@ const BuildRegPage = () => {
                   <div className="invalid-tooltip">{regError}</div>
                 )}
                 <label className="form-label" htmlFor="repeatPassword">{t('register.repeatPasswordLabel')}</label>
-                {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-                  <div className="text-danger">{formik.errors.repeatPassword}</div>
-                )}
               </div>
 
               <Button onSubmit={formik.handleSubmit} type="submit" variant="" className="w-100 mb-3 btn btn-outline-primary">
