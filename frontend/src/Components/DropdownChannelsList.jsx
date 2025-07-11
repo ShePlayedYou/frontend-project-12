@@ -18,12 +18,18 @@ const DropdownChannelsList = ({ children, isActive, onClick, onRename, onRemove,
       {children}
     </Button>
 
+    <label htmlFor={`dropdown-toggle-${children}`} className="visually-hidden">
+      Управление каналом
+    </label>
+
     <Dropdown.Toggle
+      id={`dropdown-toggle-${children}`}
       split
       variant={isActive ? 'secondary' : ''}
       className="flex-grow-0"
-      id="dropdown-split-basic"
-    />
+    >
+      <span className="visually-hidden">{t('channelsDropdown.controlLabel')}</span>
+    </Dropdown.Toggle>
 
     <Dropdown.Menu>
       <Dropdown.Item onClick={onRename}>{t('channelsDropdown.rename')}</Dropdown.Item>
