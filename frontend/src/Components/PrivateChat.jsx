@@ -86,6 +86,7 @@ const BuildPrivatePage = () => {
             <b>{t('privateChat.channels')}</b>
             <Button onClick={openAddModal} type="button" variant="" className="p-0 text-primary btn-group-vertical">
               <i className="bi bi-plus-square fs-4"></i>
+              <span className="visually-hidden">+</span>
             </Button>
           </div>
           <ChannelsList onChannelSelect={handleChannelSelect} onRename={openRenameModal} onRemove={openRemoveModal} />
