@@ -36,16 +36,16 @@ const BuildPrivatePage = () => {
   }
 
   const handleCreateChannel = async (channel) => {
-    const data = await createChannel(channel, t)
+    const data = await createChannel(channel)
     return data
   }
 
   const handleRename = async (newChannelName, channel) => {
-    await renameChannel(newChannelName, channel, t)
+    await renameChannel(newChannelName, channel)
   }
 
   const handleRemove = async (channel) => {
-    const data = await removeChannel(channel, t)
+    const data = await removeChannel(channel)
     return data
   }
 

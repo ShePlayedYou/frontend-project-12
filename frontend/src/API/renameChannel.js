@@ -2,7 +2,7 @@ import axios from 'axios'
 import routes from '../routes.js'
 import { toast } from 'react-toastify'
 
-export const renameChannel = async (newChannelName, channel, t) => {
+export const renameChannel = async (newChannelName, channel) => {
   const token = localStorage.getItem('token')
   try {
     await axios.patch(routes.editChannel(channel.id), newChannelName, {
@@ -10,11 +10,8 @@ export const renameChannel = async (newChannelName, channel, t) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    toast.success(t('toasterMessages.renameChannel'))
   }
   catch (err) {
-    if (err.code === 'ERR_NETWORK') {
-      toast.error(t('toasterMessages.networkError'))
-    }
+    throw err
   }
 }

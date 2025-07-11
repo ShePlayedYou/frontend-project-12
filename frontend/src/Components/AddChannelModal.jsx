@@ -37,12 +37,17 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
       try {
         const newChannel = { name: filteredChannelName }
         const response = await onChannelCreate(newChannel)
+        toast.success(<div role="alert">{t('toasterMessages.channelCreated')}</div>);
         dispatch(setCurrentChannel(response.data))
         resetForm()
         onClose()
       }
-      catch {
-        toast.error(t('toasterMessages.unknownError'))
+      catch (err) {
+         if (err.code === 'ERR_NETWORK') {
+          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
+        } else {
+          toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
+        }
       }
       finally {
         setSubmitting(false)

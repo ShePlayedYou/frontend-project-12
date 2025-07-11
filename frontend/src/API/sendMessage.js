@@ -13,24 +13,6 @@ export const sendMessage = async (message, t) => {
     })
   }
   catch (err) {
-    if (err.code === 'ERR_NETWORK') {
-      toast.error(t('toasterMessages.networkError'))
-      setTimeout(async () => {
-        try {
-          await axios.post(routes.sendMessage(), message, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-        }
-        catch (retryErr) {
-          if (retryErr.code === 'ERR_NETWORK') {
-            toast.error(t('toasterMessages.networkError'))
-            return null
-          }
-        }
-      }, 2000)
-    }
-    toast.error(t('toasterMessages.unknownError'))
+    throw err
   }
 }

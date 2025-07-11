@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import filter from 'leo-profanity'
 
 const MessagesPanel = ({ onSendMessage }) => {
@@ -38,7 +39,12 @@ const MessagesPanel = ({ onSendMessage }) => {
         resetForm()
       }
       catch (err) {
-        console.log('Error sending message', err)
+        if (err.code === 'ERR_NETWORK') {
+          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
+        } 
+        else {
+          toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
+        }
       }
       finally {
         setSubmitting(false)

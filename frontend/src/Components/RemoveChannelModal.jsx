@@ -1,21 +1,26 @@
 import { Button, Modal } from 'react-bootstrap'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 const RemoveChannelModal = ({ show, channel, onClose, onChannelRemove }) => {
   const { t } = useTranslation()
-
   const [isDeleting, setState] = useState(false)
 
   const deleteChannel = async () => {
     try {
       setState(true)
       await onChannelRemove(channel)
+      toast.success(<div role="alert">{t('toasterMessages.removeChannel')}</div>);
       onClose()
     }
-    catch {
-      toast.error(t('toasterMessages.unknownError:'))
+    catch (err) {
+      if (err.code === 'ERR_NETWORK') {
+        toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
+      } 
+      else {
+        toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
+      }
     }
     finally {
       setState(false)

@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import filter from 'leo-profanity'
 
@@ -43,11 +44,17 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
       try {
         const newChannelName = { name: filteredChannelName }
         await onChannelRename(newChannelName, channel)
+        toast.success(<div role="alert">{t('toasterMessages.renameChannel')}</div>);
         resetForm()
         onClose()
       }
       catch (err) {
-        console.log('Error renaming channel', err)
+        if (err.code === 'ERR_NETWORK') {
+          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
+        } 
+        else {
+          toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
+        }
       }
       finally {
         setSubmitting(false)

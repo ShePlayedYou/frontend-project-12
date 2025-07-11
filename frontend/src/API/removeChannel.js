@@ -1,8 +1,7 @@
 import axios from 'axios'
 import routes from '../routes.js'
-import { toast } from 'react-toastify'
 
-export const removeChannel = async (channel, t) => {
+export const removeChannel = async (channel) => {
   const token = localStorage.getItem('token')
   try {
     const response = axios.delete(routes.removeChannel(channel.id), {
@@ -10,12 +9,9 @@ export const removeChannel = async (channel, t) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    toast.success(t('toasterMessages.removeChannel'))
     return response
   }
   catch (err) {
-    if (err.code === 'ERR_NETWORK') {
-      toast.error(t('toasterMessages.networkError'))
-    }
+    throw err
   }
 }
