@@ -8,7 +8,7 @@ import filter from 'leo-profanity'
 
 const MessagesPanel = ({ onSendMessage }) => {
   const { t } = useTranslation()
-  
+
   filter.add(filter.getDictionary('en'))
   filter.add(filter.getDictionary('ru'))
 
@@ -42,8 +42,8 @@ const MessagesPanel = ({ onSendMessage }) => {
       }
       catch (err) {
         if (err.code === 'ERR_NETWORK') {
-          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
-        } 
+          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>)
+        }
         else {
           toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
         }

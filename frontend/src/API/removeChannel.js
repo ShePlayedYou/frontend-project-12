@@ -3,15 +3,10 @@ import routes from '../routes.js'
 
 export const removeChannel = async (channel) => {
   const token = localStorage.getItem('token')
-  try {
-    const response = axios.delete(routes.removeChannel(channel.id), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    return response
-  }
-  catch (err) {
-    throw err
-  }
+  const response = axios.delete(routes.removeChannel(channel.id), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response
 }

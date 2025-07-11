@@ -10,7 +10,7 @@ import filter from 'leo-profanity'
 const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
-  
+
   filter.add(filter.getDictionary('en'))
   filter.add(filter.getDictionary('ru'))
 
@@ -48,14 +48,14 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
       try {
         const newChannelName = { name: filteredChannelName }
         await onChannelRename(newChannelName, channel)
-        toast.success(t('toasterMessages.renameChannel'));
+        toast.success(t('toasterMessages.renameChannel'))
         resetForm()
         onClose()
       }
       catch (err) {
         if (err.code === 'ERR_NETWORK') {
-          toast.error(t('toasterMessages.networkError'));
-        } 
+          toast.error(t('toasterMessages.networkError'))
+        }
         else {
           toast.error(t('toasterMessages.unknownError'))
         }
@@ -86,7 +86,7 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               className="mb-2 form-control"
               required
             />
-            <label htmlFor="name" className="visually-hidden">{t("renameChannelModal.inputLabel")}</label>
+            <label htmlFor="name" className="visually-hidden">{t('renameChannelModal.inputLabel')}</label>
             {formik.touched.name && formik.errors.name
               ? (
                   <div className="text-danger">{formik.errors.name}</div>

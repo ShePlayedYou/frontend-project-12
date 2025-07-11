@@ -11,13 +11,13 @@ const RemoveChannelModal = ({ show, channel, onClose, onChannelRemove }) => {
     try {
       setState(true)
       await onChannelRemove(channel)
-      toast.success(t('toasterMessages.removeChannel'));
+      toast.success(t('toasterMessages.removeChannel'))
       onClose()
     }
     catch (err) {
       if (err.code === 'ERR_NETWORK') {
-        toast.error(t('toasterMessages.networkError'));
-      } 
+        toast.error(t('toasterMessages.networkError'))
+      }
       else {
         toast.error(t('toasterMessages.unknownError'))
       }

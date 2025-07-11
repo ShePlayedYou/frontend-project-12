@@ -20,8 +20,8 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
   const inputRef = useRef(null)
 
   useEffect(() => {
-      inputRef.current?.focus()
-    }, [])
+    inputRef.current?.focus()
+  }, [])
 
   const schema = existingNames => Yup.object().shape({
     name: Yup.string()
@@ -45,15 +45,16 @@ const AddChannelModal = ({ show, onClose, onChannelCreate }) => {
       try {
         const newChannel = { name: filteredChannelName }
         const response = await onChannelCreate(newChannel)
-        toast.success(<span>{t('toasterMessages.channelCreated')}</span>);
+        toast.success(<span>{t('toasterMessages.channelCreated')}</span>)
         dispatch(setCurrentChannel(response.data))
         resetForm()
         onClose()
       }
       catch (err) {
-         if (err.code === 'ERR_NETWORK') {
-          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>);
-        } else {
+        if (err.code === 'ERR_NETWORK') {
+          toast.error(<div role="alert">{t('toasterMessages.networkError')}</div>)
+        }
+        else {
           toast.error(<div role="alert">{t('toasterMessages.unknownError')}</div>)
         }
       }
