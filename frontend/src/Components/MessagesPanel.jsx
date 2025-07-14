@@ -5,6 +5,7 @@ import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from 'leo-profanity'
+import { BsFillSendFill } from 'react-icons/bs'
 
 const MessagesPanel = ({ onSendMessage }) => {
   const { t } = useTranslation()
@@ -91,7 +92,7 @@ const MessagesPanel = ({ onSendMessage }) => {
               required
             />
             <Button type="submit" variant="" className="text-primary btn btn-group-vertical" disabled={formik.isSubmitting}>
-              <i className="bi bi-send-fill"></i>
+              <BsFillSendFill size={22} />
             </Button>
           </div>
         </Form>

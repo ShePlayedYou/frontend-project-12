@@ -15,12 +15,11 @@ import { sendMessage } from '../API/sendMessage.js'
 import { createChannel } from '../API/createChannel.js'
 import { renameChannel } from '../API/renameChannel.js'
 import { removeChannel } from '../API/removeChannel.js'
+import { BsPlusSquare } from 'react-icons/bs'
 
 const BuildPrivatePage = () => {
   const { t } = useTranslation()
-
   const dispatch = useDispatch()
-
   const [modal, setModal] = useState({ type: null, channel: null })
 
   useMessagesSocket()
@@ -54,46 +53,58 @@ const BuildPrivatePage = () => {
   const openRemoveModal = channel => setModal({ type: 'remove', channel })
   const closeModal = () => setModal({ type: null, channel: null })
 
-  return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      {modal.type === 'add' && (
+  const renderModal = () => {
+    const modalsMap = {
+      add: (
         <AddChannelModal
           show
           onClose={closeModal}
           onChannelCreate={handleCreateChannel}
         />
-      )}
-      {modal.type === 'rename' && (
+      ),
+      rename: (
         <RenameChannelModal
           show
           onClose={closeModal}
           channel={modal.channel}
           onChannelRename={handleRename}
         />
-      )}
-      {modal.type === 'remove' && (
+      ),
+      remove: (
         <RemoveChannelModal
           show
           onClose={closeModal}
           channel={modal.channel}
           onChannelRemove={handleRemove}
         />
-      )}
+      ),
+    }
+
+    return modalsMap[modal.type] || null
+  }
+
+  return (
+    <div className="container h-100 my-4 overflow-hidden rounded shadow">
+      {renderModal()}
 
       <div className="row h-100 bg-white flex-md-row">
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
           <div className="d-flex mt-0 justify-content-between align-items-center mb-2 ps-4 pe-2 p-4">
             <b>{t('privateChat.channels')}</b>
             <Button onClick={openAddModal} type="button" variant="" className="p-0 text-primary btn-group-vertical">
-              <i className="bi bi-plus-square fs-4"></i>
+              <BsPlusSquare size={22} />
               <span className="visually-hidden">+</span>
             </Button>
           </div>
-          <ChannelsList onChannelSelect={handleChannelSelect} onRename={openRenameModal} onRemove={openRemoveModal} />
+          <ChannelsList
+            onChannelSelect={handleChannelSelect}
+            onRename={openRenameModal}
+            onRemove={openRemoveModal}
+          />
         </div>
         <div className="col p-0 h-100">
           <div className="d-flex flex-column h-100">
-            <MessagesPanel onSendMessage={handleSendMessage}></MessagesPanel>
+            <MessagesPanel onSendMessage={handleSendMessage} />
           </div>
         </div>
       </div>
