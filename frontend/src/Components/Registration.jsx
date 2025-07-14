@@ -13,7 +13,6 @@ const BuildRegPage = () => {
 
   const [regError, setRegError] = useState('')
   const navigate = useNavigate()
-  
 
   const schema = Yup.object().shape({
     username: Yup.string()

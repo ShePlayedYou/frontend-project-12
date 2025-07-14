@@ -1,29 +1,17 @@
-import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { PrivatePage } from './Components/PrivateChat.jsx'
 import { Page404 } from './Components/Page404.jsx'
 import { LoginPage } from './Components/LoginPage.jsx'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginSuccess, logout } from './slices/authSlice.js'
+import { useSelector } from 'react-redux'
+import useAuthInit from './Hooks/useAuthInit.js'
 import { Nav } from './Components/Nav.jsx'
 import { RegPage } from './Components/Registration.jsx'
 import { ToastContainer } from 'react-toastify'
 
 function App() {
-  const dispatch = useDispatch()
   const { isInitialized } = useSelector(state => state.auth)
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const username = localStorage.getItem('username')
-
-    if (token && username) {
-      dispatch(loginSuccess({ token, username }))
-    }
-    else {
-      dispatch(logout())
-    }
-  }, [dispatch])
+  useAuthInit()
 
   if (!isInitialized) {
     return null
