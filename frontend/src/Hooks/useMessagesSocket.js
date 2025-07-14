@@ -1,15 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useSocket } from '../contexts/SocketContext.jsx'
 import { addMessage } from '../slices/messagesSlice.js'
+import socket from '../socket.js'
 
 const useMessagesSocket = () => {
-  const socket = useSocket()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!socket) return
-
     const handleNewMessage = (msg) => {
       dispatch(addMessage(msg))
     }

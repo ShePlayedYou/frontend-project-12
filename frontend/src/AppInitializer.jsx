@@ -1,6 +1,5 @@
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 import { Provider } from 'react-redux'
-import { SocketProvider } from './contexts/SocketContext.jsx'
 import App from './App.jsx'
 import './i18n.js'
 import store from './slices/indexStore.js'
@@ -14,9 +13,7 @@ const AppInitializer = () => (
   <RollbarProvider config={rollbarConfig}>
     <ErrorBoundary>
       <Provider store={store}>
-        <SocketProvider>
-          <App />
-        </SocketProvider>
+        <App />
       </Provider>
     </ErrorBoundary>
   </RollbarProvider>

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useSocket } from '../contexts/SocketContext.jsx'
+import socket from '../socket.js'
 import { addChannel, renameChannel, removeChannel, setCurrentChannel } from '../slices/channelsSlice.js'
 
 const useChannelsSocket = () => {
-  const socket = useSocket()
   const dispatch = useDispatch()
 
   const channels = useSelector(state => state.initChannels.channels)
@@ -12,8 +11,6 @@ const useChannelsSocket = () => {
   const [removedChannelId, setRemovedChannelId] = useState(null)
 
   useEffect(() => {
-    if (!socket) return
-
     const handleNewChannel = (channel) => {
       dispatch(addChannel(channel))
     }
