@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { handleReg } from '../API/api.js'
-import { useDispatch } from 'react-redux'
-import { loginSuccess } from '../slices/authSlice.js'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import useAuth from '../Hooks/useAuth.js'
 
 const BuildRegPage = () => {
   const { t } = useTranslation()
 
+  const { register } = useAuth()
+
   const [regError, setRegError] = useState('')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -37,13 +37,8 @@ const BuildRegPage = () => {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        const data = await handleReg(values, t)
-        if (!data) return
-
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('username', data.username)
+        await register(values)
         setRegError('')
-        dispatch(loginSuccess(data))
         navigate('/')
       }
       catch (err) {

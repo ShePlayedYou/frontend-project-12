@@ -1,19 +1,18 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { logout } from '../slices/authSlice.js'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import useAuth from '../Hooks/useAuth.js'
 
 const BuildNav = () => {
   const { t } = useTranslation()
 
+  const { logoutUser } = useAuth()
+
   const { isAuthenticated } = useSelector(state => state.auth)
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('username')
-    dispatch(logout())
+    logoutUser()
     navigate('/')
   }
 

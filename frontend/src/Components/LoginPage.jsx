@@ -2,17 +2,16 @@ import { useState } from 'react'
 import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate, Link } from 'react-router-dom'
-import { handleLogin } from '../API/api.js'
-import { useDispatch } from 'react-redux'
-import { loginSuccess } from '../slices/authSlice.js'
 import { useTranslation } from 'react-i18next'
+import useAuth from '../Hooks/useAuth.js'
 
 const BuildLoginPage = () => {
   const { t } = useTranslation()
 
+  const { login } = useAuth()
+
   const [authError, setAuthError] = useState('')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const formik = useFormik({
     initialValues: {
@@ -21,13 +20,9 @@ const BuildLoginPage = () => {
     },
     onSubmit: async (values) => {
       try {
-        const data = await handleLogin(values, t)
-        if (!data) return
+        await login(values)
 
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('username', data.username)
         setAuthError('')
-        dispatch(loginSuccess(data))
         navigate('/')
       }
       catch (err) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import socket from '../socket.js'
+import socket from '../services/socket.js'
 import { addChannel, renameChannel, removeChannel, setCurrentChannel } from '../slices/channelsSlice.js'
 
 const useChannelsSocket = () => {

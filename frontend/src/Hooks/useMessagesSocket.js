@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addMessage } from '../slices/messagesSlice.js'
-import socket from '../socket.js'
+import socket from '../services/socket.js'
 
 const useMessagesSocket = () => {
   const dispatch = useDispatch()
