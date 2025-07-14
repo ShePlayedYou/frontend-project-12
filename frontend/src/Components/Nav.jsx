@@ -2,8 +2,11 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../Hooks/useAuth.js'
+import routesFront from '../routesFront.js'
 
 const BuildNav = () => {
+  const { frontLoginPath } = routesFront
+
   const { t } = useTranslation()
 
   const { logoutUser } = useAuth()
@@ -13,7 +16,7 @@ const BuildNav = () => {
 
   const handleLogout = () => {
     logoutUser()
-    navigate('/')
+    navigate(frontLoginPath())
   }
 
   return (

@@ -7,9 +7,11 @@ import useAuthInit from './Hooks/useAuthInit.js'
 import { Nav } from './Components/Nav.jsx'
 import { RegPage } from './Components/Registration.jsx'
 import { ToastContainer } from 'react-toastify'
+import routesFront from './routesFront.js'
 
 function App() {
-  const { isInitialized } = useSelector(state => state.auth)
+  const { isInitialized, isAuthenticated } = useSelector(state => state.auth)
+  const { frontLoginPath, frontRegPath, frontRootPath, frontNotFoundPath } = routesFront
 
   useAuthInit()
 
@@ -17,51 +19,30 @@ function App() {
     return null
   }
 
-  const PageOneMain = ({ children }) => {
-    const { isAuthenticated } = useSelector(state => state.auth)
+  const PrivateRoute = ({ children }) => {
     const location = useLocation()
-
-    return (
-      isAuthenticated ? children : <Navigate to="/login" state={{ from: location }} />
-    )
-  }
-
-  const PublicRoute = ({ children }) => {
-    const { isAuthenticated } = useSelector(state => state.auth)
-    return isAuthenticated ? <Navigate to="/" replace /> : children
+    return isAuthenticated
+      ? children
+      : <Navigate to={frontLoginPath()} state={{ from: location }} replace />
   }
 
   return (
     <div className="d-flex flex-column h-100">
       <ToastContainer />
       <BrowserRouter>
-        <Nav></Nav>
+        <Nav />
         <Routes>
           <Route
-            path="/"
+            path={frontRootPath()}
             element={(
-              <PageOneMain>
+              <PrivateRoute>
                 <PrivatePage />
-              </PageOneMain>
+              </PrivateRoute>
             )}
           />
-          <Route
-            path="login"
-            element={(
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            )}
-          />
-          <Route
-            path="signup"
-            element={(
-              <PublicRoute>
-                <RegPage />
-              </PublicRoute>
-            )}
-          />
-          <Route path="*" element={<Page404 />} />
+          <Route path={frontLoginPath()} element={<LoginPage />} />
+          <Route path={frontRegPath()} element={<RegPage />} />
+          <Route path={frontNotFoundPath()} element={<Page404 />} />
         </Routes>
       </BrowserRouter>
     </div>

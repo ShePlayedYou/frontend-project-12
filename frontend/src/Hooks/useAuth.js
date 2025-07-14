@@ -17,7 +17,6 @@ const useAuth = () => {
 
   const register = async (values) => {
     const data = await handleReg(values, t)
-    console.log(data, 'FROM REGISTER useAUTH')
     localStorage.setItem('token', data.token)
     localStorage.setItem('username', data.username)
     dispatch(loginSuccess(data))
