@@ -40,6 +40,7 @@ const MessagesPanel = ({ onSendMessage }) => {
         }
         await onSendMessage(newMessage)
         resetForm()
+        inputRef.current?.focus()
       }
       catch (err) {
         if (err.code === 'ERR_NETWORK') {
@@ -54,6 +55,12 @@ const MessagesPanel = ({ onSendMessage }) => {
       }
     },
   })
+
+  useEffect(() => {
+    if (!formik.isSubmitting) {
+      inputRef.current?.focus()
+    }
+  }, [formik.isSubmitting])
 
   return (
     <>

@@ -26,7 +26,6 @@ const useInitialDataLoad = () => {
       }
       catch (err) {
         console.error('Ошибка загрузки данных:', err)
-        // можно добавить тостер или обработку ошибок
       }
     }
 
