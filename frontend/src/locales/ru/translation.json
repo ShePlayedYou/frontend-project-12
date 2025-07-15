@@ -34,7 +34,8 @@
     },
 
     "MessagesPanel": {
-        "enterMessageForm": "Введите сообщение..."
+        "enterMessageForm": "Введите сообщение...",
+        "channelLoading": "Загрузка канала..."
     },
 
     "channelsDropdown": {

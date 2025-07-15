@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import filter from 'leo-profanity'
+import { useRenameChannelMutation } from '../slices/apiSlice'
 
-const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
+const RenameChannelModal = ({ show, channel, onClose }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
+  const [renameChannel] = useRenameChannelMutation()
 
   filter.add(filter.getDictionary('en'))
   filter.add(filter.getDictionary('ru'))
@@ -23,7 +25,10 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
     }
   }, [show])
 
-  const schema = existingChannelsNames => Yup.object().shape({
+  const channels = useSelector(state => state.api.queries['getChannels(undefined)']?.data || [])
+  const existingChannelNames = channels.map(c => c.name)
+
+  const schema = Yup.object().shape({
     name: Yup.string()
       .min(3, t('modalsGeneral.validation.minMax'))
       .max(20, t('modalsGeneral.validation.minMax'))
@@ -31,34 +36,28 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
       .test(
         'unique',
         t('modalsGeneral.validation.unique'),
-        value => !existingChannelsNames.includes(value),
+        value => !existingChannelNames.includes(value),
       ),
   })
 
-  const channels = useSelector(state => state.initChannels.channels)
-  const existingChannelsNames = channels.map(c => c.name)
-
   const formik = useFormik({
     initialValues: { name: channel.name },
-    validationSchema: schema(existingChannelsNames),
+    validationSchema: schema,
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      const filteredChannelName = filter.clean(values.name)
+      const filteredName = filter.clean(values.name)
       try {
-        const newChannelName = { name: filteredChannelName }
-        await onChannelRename(newChannelName, channel)
+        await renameChannel({ id: channel.id, name: filteredName }).unwrap()
         toast.success(t('toasterMessages.renameChannel'))
         resetForm()
         onClose()
       }
       catch (err) {
-        if (err.code === 'ERR_NETWORK') {
-          toast.error(t('toasterMessages.networkError'))
-        }
-        else {
-          toast.error(t('toasterMessages.unknownError'))
-        }
+        const msg = err?.status === 'FETCH_ERROR' || err?.code === 'ERR_NETWORK'
+          ? t('toasterMessages.networkError')
+          : t('toasterMessages.unknownError')
+        toast.error(msg)
       }
       finally {
         setSubmitting(false)
@@ -77,7 +76,6 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
             <input
               ref={inputRef}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
               value={formik.values.name}
               name="name"
               id="name"
@@ -86,26 +84,17 @@ const RenameChannelModal = ({ show, channel, onClose, onChannelRename }) => {
               className="mb-2 form-control"
               required
             />
-            <label htmlFor="name" className="visually-hidden">{t('renameChannelModal.inputLabel')}</label>
-            {formik.touched.name && formik.errors.name
-              ? (
-                  <div className="text-danger">{formik.errors.name}</div>
-                )
-              : null}
+            <label htmlFor="name" className="visually-hidden">
+              {t('renameChannelModal.inputLabel')}
+            </label>
+            {formik.errors.name && (
+              <div className="text-danger">{formik.errors.name}</div>
+            )}
             <div className="d-flex justify-content-end">
-              <Button
-                type="button"
-                className="me-2 btn btn-secondary"
-                onClick={onClose}
-              >
+              <Button type="button" className="me-2 btn btn-secondary" onClick={onClose}>
                 {t('modalsGeneralButton.cancel')}
               </Button>
-              <Button
-                type="submit"
-                className="btn btn-primary"
-                onSubmit={formik.handleSubmit}
-                disabled={formik.isSubmitting}
-              >
+              <Button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
                 {formik.isSubmitting
                   ? t('modalsGeneralButton.submitting')
                   : t('modalsGeneralButton.submit')}

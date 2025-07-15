@@ -39,13 +39,3 @@ export const handleReg = async (value, t) => {
     }
   }
 }
-
-export const fetchChannels = token =>
-  axios.get(routes.getChannels(), {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-
-export const fetchMessages = token =>
-  axios.get(routes.getMessages(), {
-    headers: { Authorization: `Bearer ${token}` },
-  })

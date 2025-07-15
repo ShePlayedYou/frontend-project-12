@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { loginSuccess, logout } from '../slices/authSlice.js'
-import { handleReg, handleLogin } from '../API/api.js'
+import { handleReg, handleLogin } from '../API/authApi.js'
 import { useTranslation } from 'react-i18next'
 
 const useAuth = () => {

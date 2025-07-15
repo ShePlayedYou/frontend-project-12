@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './authSlice.js'
-import channelsReducer from './channelsSlice.js'
-import messagesReducer from './messagesSlice.js'
+import { apiSlice } from '../slices/apiSlice.js'
+import currentChannelReducer from './currentChannelSlice.js'
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    initChannels: channelsReducer,
-    initMessages: messagesReducer,
+    currentChannel: currentChannelReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 })
 
 export default store

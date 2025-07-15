@@ -1,16 +1,16 @@
 {
   "loginTitle": "Log In",
-  "loginUsername": "Your username",
-  "loginPassword": "Your password",
+  "loginUsername": "Your nickname",
+  "loginPassword": "Password",
   "logInButton": "Log In",
   "doNotHaveAccount": "Don't have an account?",
-  "registerLink": "Sign Up",
-  "logInError": "Invalid username or password",
+  "registerLink": "Register",
+  "logInError": "Incorrect username or password",
 
   "logOutButton": "Log Out",
 
   "register": {
-    "title": "Registration",
+    "title": "Register",
     "imgAlt": "Login",
     "usernameLabel": "Username",
     "usernamePlaceholder": "Username",
@@ -26,7 +26,7 @@
     "passwordLength": "At least 6 characters",
     "required": "Required field",
     "passwordsMustMatch": "Passwords must match",
-    "userExists": "This user already exists"
+    "userExists": "User already exists"
   },
 
   "privateChat": {
@@ -34,12 +34,14 @@
   },
 
   "MessagesPanel": {
-    "enterMessageForm": "Enter a message..."
+    "enterMessageForm": "Enter a message...",
+    "channelLoading": "Loading channel..."
   },
 
   "channelsDropdown": {
     "rename": "Rename",
-    "delete": "Delete"
+    "delete": "Delete",
+    "controlLabel": "Channel management"
   },
 
   "modalsGeneralButton": {
@@ -59,12 +61,14 @@
   "createChannelModal": {
     "title": "Add Channel",
     "inputPlaceholder": "Enter channel name...",
-    "inputAriaLabel": "New name"
+    "inputAriaLabel": "New name",
+    "channelName": "Channel name"
   },
 
   "renameChannelModal": {
     "title": "Rename Channel",
-    "inputPlaceholder": "Enter channel name..."
+    "inputPlaceholder": "Enter channel name...",
+    "inputLabel": "Channel name"
   },
 
   "deleteChannelModal": {
@@ -75,16 +79,16 @@
   },
 
   "page404": {
-  "pageNotFound": "Page not found",
-  "redirectHint": "But you can go to the",
-  "redirectHintLink": "main page"
+    "pageNotFound": "Page not found",
+    "redirectHint": "But you can go",
+    "redirectHintLink": "to the main page"
   },
 
   "toasterMessages": {
-  "networkError": "Network error",
-  "channelCreated": "Channel created",
-  "unknownError": "Unknown error",
-  "renameChannel": "Channel renamed",
-  "removeChannel": "Channel removed"
-}
+    "networkError": "Network error",
+    "channelCreated": "Channel created",
+    "unknownError": "Unknown error",
+    "renameChannel": "Channel renamed",
+    "removeChannel": "Channel removed"
+  }
 }

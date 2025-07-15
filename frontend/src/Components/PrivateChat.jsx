@@ -1,51 +1,77 @@
 import { Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setCurrentChannel } from '../slices/channelsSlice.js'
+import { setCurrentChannel } from '../slices/currentChannelSlice.js'
 import ChannelsList from './ChannelsList.jsx'
 import MessagesPanel from './MessagesPanel.jsx'
 import AddChannelModal from './AddChannelModal.jsx'
 import RenameChannelModal from './RenameChannelModal.jsx'
 import RemoveChannelModal from './RemoveChannelModal.jsx'
-import useMessagesSocket from '../Hooks/useMessagesSocket.js'
-import useChannelsSocket from '../Hooks/useChannelsSocket.js'
 import useInitialDataLoad from '../Hooks/useInitialDataLoad.js'
 import { useTranslation } from 'react-i18next'
-import { sendMessage } from '../API/sendMessage.js'
-import { createChannel } from '../API/createChannel.js'
-import { renameChannel } from '../API/renameChannel.js'
-import { removeChannel } from '../API/removeChannel.js'
 import { BsPlusSquare } from 'react-icons/bs'
+import { toast } from 'react-toastify'
+import {
+  useSendMessageMutation,
+  useCreateChannelMutation,
+  useRenameChannelMutation,
+  useRemoveChannelMutation,
+} from '../slices/apiSlice.js'
+import useSocket from '../Hooks/useSocket.js'
 
 const BuildPrivatePage = () => {
+  useSocket()
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [modal, setModal] = useState({ type: null, channel: null })
 
-  useMessagesSocket()
   useInitialDataLoad()
-  useChannelsSocket()
+
+  const [sendMessage] = useSendMessageMutation()
+  const [createChannel] = useCreateChannelMutation()
+  const [renameChannel] = useRenameChannelMutation()
+  const [removeChannel] = useRemoveChannelMutation()
 
   const handleChannelSelect = (channel) => {
     dispatch(setCurrentChannel(channel))
   }
 
   const handleSendMessage = async (msg) => {
-    await sendMessage(msg, t)
+    try {
+      await sendMessage(msg).unwrap()
+    }
+    catch {
+      toast.error(t('toasterMessages.networkError'))
+    }
   }
 
   const handleCreateChannel = async (channel) => {
-    const data = await createChannel(channel)
-    return data
+    try {
+      const data = await createChannel(channel).unwrap()
+      return data
+    }
+    catch {
+      toast.error(t('toasterMessages.networkError'))
+    }
   }
 
-  const handleRename = async (newChannelName, channel) => {
-    await renameChannel(newChannelName, channel)
+  const handleRename = async (newName, channel) => {
+    try {
+      await renameChannel({ id: channel.id, name: newName }).unwrap()
+    }
+    catch {
+      toast.error(t('toasterMessages.networkError'))
+    }
   }
 
   const handleRemove = async (channel) => {
-    const data = await removeChannel(channel)
-    return data
+    try {
+      const data = await removeChannel(channel.id).unwrap()
+      return data
+    }
+    catch {
+      toast.error(t('toasterMessages.networkError'))
+    }
   }
 
   const openAddModal = () => setModal({ type: 'add', channel: null })

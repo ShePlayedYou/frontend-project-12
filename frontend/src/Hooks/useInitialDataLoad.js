@@ -1,36 +1,26 @@
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { fetchChannels, fetchMessages } from '../API/api.js'
-import { setChannels, setCurrentChannel } from '../slices/channelsSlice.js'
-import { setMessages } from '../slices/messagesSlice.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { useGetChannelsQuery, useGetMessagesQuery } from '../slices/apiSlice.js'
+import { setCurrentChannel } from '../slices/currentChannelSlice.js'
 
 const useInitialDataLoad = () => {
   const dispatch = useDispatch()
+  const currentChannel = useSelector(state => state.currentChannel.current)
+
+  const {
+    data: channels = [],
+    isSuccess: isChannelsSuccess,
+  } = useGetChannelsQuery()
+
+  useGetMessagesQuery(undefined, {
+    skip: !isChannelsSuccess,
+  })
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) return
-
-    const loadData = async () => {
-      try {
-        const channelsResponse = await fetchChannels(token)
-        const channels = channelsResponse.data
-        dispatch(setChannels(channels))
-
-        if (channels.length > 0) {
-          const current = channels[0]
-          dispatch(setCurrentChannel(current))
-          const messagesResponse = await fetchMessages(token)
-          dispatch(setMessages(messagesResponse.data))
-        }
-      }
-      catch (err) {
-        console.error('Ошибка загрузки данных:', err)
-      }
+    if (!currentChannel && isChannelsSuccess && channels.length > 0) {
+      dispatch(setCurrentChannel(channels[0]))
     }
-
-    loadData()
-  }, [dispatch])
+  }, [isChannelsSuccess, channels, currentChannel, dispatch])
 }
 
 export default useInitialDataLoad
