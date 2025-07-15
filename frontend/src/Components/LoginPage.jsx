@@ -3,15 +3,16 @@ import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import useAuth from '../Hooks/useAuth.js'
+import { useLoginMutation } from '../slices/apiSlice.js'
+import { useDispatch } from 'react-redux'
+import { loginSuccess } from '../slices/authSlice.js'
 
 const BuildLoginPage = () => {
   const { t } = useTranslation()
-
-  const { login } = useAuth()
-
   const [authError, setAuthError] = useState('')
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [loginRequest] = useLoginMutation()
 
   const formik = useFormik({
     initialValues: {
@@ -20,13 +21,15 @@ const BuildLoginPage = () => {
     },
     onSubmit: async (values) => {
       try {
-        await login(values)
-
+        const data = await loginRequest(values).unwrap()
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('username', data.username)
+        dispatch(loginSuccess(data))
         setAuthError('')
         navigate('/')
       }
-      catch (err) {
-        setAuthError(err.message)
+      catch {
+        setAuthError(t('logInError'))
       }
     },
   })
@@ -84,7 +87,6 @@ const BuildLoginPage = () => {
                 </div>
               )}
             </Form>
-
           </div>
           <div className="card-footer p-4">
             <div className="text-center">

@@ -49,6 +49,20 @@ export const apiSlice = createApi({
         method: 'DELETE',
       }),
     }),
+    login: builder.mutation({
+      query: ({ username, password }) => ({
+        url: routes.loginPath(),
+        method: 'POST',
+        body: { username, password },
+      }),
+    }),
+    register: builder.mutation({
+      query: ({ username, password }) => ({
+        url: routes.regPath(),
+        method: 'POST',
+        body: { username, password },
+      }),
+    }),
   }),
 })
 
@@ -59,4 +73,6 @@ export const {
   useCreateChannelMutation,
   useRenameChannelMutation,
   useRemoveChannelMutation,
+  useLoginMutation,
+  useRegisterMutation,
 } = apiSlice

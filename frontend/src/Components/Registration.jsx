@@ -4,15 +4,16 @@ import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
-import useAuth from '../Hooks/useAuth.js'
+import { useRegisterMutation } from '../slices/apiSlice.js'
+import { useDispatch } from 'react-redux'
+import { loginSuccess } from '../slices/authSlice.js'
 
 const BuildRegPage = () => {
   const { t } = useTranslation()
-
-  const { register } = useAuth()
-
   const [regError, setRegError] = useState('')
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [registerRequest] = useRegisterMutation()
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -36,13 +37,23 @@ const BuildRegPage = () => {
     validationSchema: schema,
     onSubmit: async (values) => {
       try {
-        await register(values)
+        const data = await registerRequest({
+          username: values.username,
+          password: values.password,
+        }).unwrap()
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('username', data.username)
+        dispatch(loginSuccess(data))
         setRegError('')
         navigate('/')
       }
       catch (err) {
-        console.log(err, 'err reg')
-        setRegError(err.message)
+        if (err?.status === 409) {
+          setRegError(t('registerErrors.userExists'))
+        }
+        else {
+          setRegError(t('toasterMessages.networkError'))
+        }
       }
     },
   })
@@ -81,7 +92,7 @@ const BuildRegPage = () => {
                   <div className="invalid-tooltip">{formik.errors.username}</div>
                 )}
                 {regError && (
-                  <div className="invalid-tooltip"></div>
+                  <div className="invalid-tooltip">{regError}</div>
                 )}
                 <label htmlFor="username">{t('register.usernameLabel')}</label>
               </div>
@@ -102,9 +113,6 @@ const BuildRegPage = () => {
                 {formik.touched.password && formik.errors.password && (
                   <div className="invalid-tooltip">{formik.errors.password}</div>
                 )}
-                {regError && (
-                  <div className="invalid-tooltip"></div>
-                )}
                 <label className="form-label" htmlFor="password">{t('register.passwordLabel')}</label>
               </div>
 
@@ -123,9 +131,6 @@ const BuildRegPage = () => {
                 />
                 {formik.touched.repeatPassword && formik.errors.repeatPassword && (
                   <div className="invalid-tooltip">{formik.errors.repeatPassword}</div>
-                )}
-                {regError && (
-                  <div className="invalid-tooltip">{regError}</div>
                 )}
                 <label className="form-label" htmlFor="repeatPassword">{t('register.repeatPasswordLabel')}</label>
               </div>
