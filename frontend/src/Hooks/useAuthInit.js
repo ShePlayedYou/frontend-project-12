@@ -15,7 +15,7 @@ const useAuthInit = () => {
     else {
       dispatch(logout())
     }
-  }, [])
+  }, [dispatch])
 }
 
 export default useAuthInit

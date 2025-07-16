@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import filter from 'leo-profanity'
-import { useCreateChannelMutation, useGetChannelsQuery } from '../slices/apiSlice.js'
+import { useCreateChannelMutation, useGetChannelsQuery } from '../slices/channelsApi.js'
 
 const AddChannelModal = ({ show, onClose }) => {
   const { t } = useTranslation()

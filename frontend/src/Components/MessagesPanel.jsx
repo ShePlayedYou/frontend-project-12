@@ -9,8 +9,9 @@ import { BsFillSendFill } from 'react-icons/bs'
 import {
   useSendMessageMutation,
   useGetMessagesQuery,
-  useGetChannelsQuery,
-} from '../slices/apiSlice'
+} from '../slices/messagesApi.js'
+import { useGetChannelsQuery,
+} from '../slices/channelsApi.js'
 
 const MessagesPanel = () => {
   const { t } = useTranslation()

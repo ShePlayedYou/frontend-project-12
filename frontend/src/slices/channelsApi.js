@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import routes from '../routes.js'
 
-export const apiSlice = createApi({
-  reducerPath: 'api',
+export const channelsApi = createApi({
+  reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token')
@@ -12,22 +12,11 @@ export const apiSlice = createApi({
       return headers
     },
   }),
-  tagTypes: ['Channels', 'Messages'],
+  tagTypes: ['Channels'],
   endpoints: builder => ({
     getChannels: builder.query({
       query: () => ({ url: routes.getChannels() }),
       providesTags: ['Channels'],
-    }),
-    getMessages: builder.query({
-      query: () => ({ url: routes.getMessages() }),
-      providesTags: ['Messages'],
-    }),
-    sendMessage: builder.mutation({
-      query: message => ({
-        url: routes.sendMessage(),
-        method: 'POST',
-        body: message,
-      }),
     }),
     createChannel: builder.mutation({
       query: data => ({
@@ -49,30 +38,12 @@ export const apiSlice = createApi({
         method: 'DELETE',
       }),
     }),
-    login: builder.mutation({
-      query: ({ username, password }) => ({
-        url: routes.loginPath(),
-        method: 'POST',
-        body: { username, password },
-      }),
-    }),
-    register: builder.mutation({
-      query: ({ username, password }) => ({
-        url: routes.regPath(),
-        method: 'POST',
-        body: { username, password },
-      }),
-    }),
   }),
 })
 
 export const {
   useGetChannelsQuery,
-  useGetMessagesQuery,
-  useSendMessageMutation,
   useCreateChannelMutation,
   useRenameChannelMutation,
   useRemoveChannelMutation,
-  useLoginMutation,
-  useRegisterMutation,
-} = apiSlice
+} = channelsApi

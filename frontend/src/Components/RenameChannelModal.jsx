@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import filter from 'leo-profanity'
-import { useRenameChannelMutation } from '../slices/apiSlice'
+import { channelsApi } from '../slices/channelsApi.js'
+import { useRenameChannelMutation } from '../slices/channelsApi.js'
 
 const RenameChannelModal = ({ show, channel, onClose }) => {
   const { t } = useTranslation()
@@ -25,7 +26,9 @@ const RenameChannelModal = ({ show, channel, onClose }) => {
     }
   }, [show])
 
-  const channels = useSelector(state => state.api.queries['getChannels(undefined)']?.data || [])
+  const channels = useSelector(
+    channelsApi.endpoints.getChannels.select(),
+  )?.data || []
   const existingChannelNames = channels.map(c => c.name)
 
   const schema = Yup.object().shape({

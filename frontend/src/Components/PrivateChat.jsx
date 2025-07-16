@@ -13,10 +13,13 @@ import { BsPlusSquare } from 'react-icons/bs'
 import { toast } from 'react-toastify'
 import {
   useSendMessageMutation,
-  useCreateChannelMutation,
+} from '../slices/messagesApi.js'
+
+import { useCreateChannelMutation,
   useRenameChannelMutation,
   useRemoveChannelMutation,
-} from '../slices/apiSlice.js'
+} from '../slices/channelsApi.js'
+
 import useSocket from '../Hooks/useSocket.js'
 
 const BuildPrivatePage = () => {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useGetChannelsQuery, useGetMessagesQuery } from '../slices/apiSlice.js'
+import { useGetChannelsQuery } from '../slices/channelsApi.js'
 import { setCurrentChannel } from '../slices/currentChannelSlice.js'
 
 const useInitialDataLoad = () => {
@@ -11,10 +11,6 @@ const useInitialDataLoad = () => {
     data: channels = [],
     isSuccess: isChannelsSuccess,
   } = useGetChannelsQuery()
-
-  useGetMessagesQuery(undefined, {
-    skip: !isChannelsSuccess,
-  })
 
   useEffect(() => {
     if (!currentChannel && isChannelsSuccess && channels.length > 0) {

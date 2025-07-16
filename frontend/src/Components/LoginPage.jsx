@@ -3,16 +3,13 @@ import { useFormik } from 'formik'
 import { Button, Form } from 'react-bootstrap'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useLoginMutation } from '../slices/apiSlice.js'
-import { useDispatch } from 'react-redux'
-import { loginSuccess } from '../slices/authSlice.js'
+import useAuth from '../Hooks/useAuth.js'
 
 const BuildLoginPage = () => {
   const { t } = useTranslation()
   const [authError, setAuthError] = useState('')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [loginRequest] = useLoginMutation()
+  const { logIn } = useAuth()
 
   const formik = useFormik({
     initialValues: {
@@ -20,15 +17,12 @@ const BuildLoginPage = () => {
       password: '',
     },
     onSubmit: async (values) => {
-      try {
-        const data = await loginRequest(values).unwrap()
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('username', data.username)
-        dispatch(loginSuccess(data))
+      const result = await logIn(values)
+      if (result.success) {
         setAuthError('')
         navigate('/')
       }
-      catch {
+      else {
         setAuthError(t('logInError'))
       }
     },

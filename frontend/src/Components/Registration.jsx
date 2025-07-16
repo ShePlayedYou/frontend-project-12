@@ -4,16 +4,13 @@ import { Button, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
-import { useRegisterMutation } from '../slices/apiSlice.js'
-import { useDispatch } from 'react-redux'
-import { loginSuccess } from '../slices/authSlice.js'
+import useAuth from '../Hooks/useAuth.js'
 
 const BuildRegPage = () => {
   const { t } = useTranslation()
   const [regError, setRegError] = useState('')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [registerRequest] = useRegisterMutation()
+  const { signUp } = useAuth()
 
   const schema = Yup.object().shape({
     username: Yup.string()
@@ -36,19 +33,17 @@ const BuildRegPage = () => {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      try {
-        const data = await registerRequest({
-          username: values.username,
-          password: values.password,
-        }).unwrap()
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('username', data.username)
-        dispatch(loginSuccess(data))
+      const result = await signUp({
+        username: values.username,
+        password: values.password,
+      })
+
+      if (result.success) {
         setRegError('')
         navigate('/')
       }
-      catch (err) {
-        if (err?.status === 409) {
+      else {
+        if (result.error?.status === 409) {
           setRegError(t('registerErrors.userExists'))
         }
         else {

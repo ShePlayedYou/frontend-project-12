@@ -2,7 +2,7 @@ import { Button, Modal } from 'react-bootstrap'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
-import { useRemoveChannelMutation } from '../slices/apiSlice'
+import { useRemoveChannelMutation } from '../slices/channelsApi.js'
 
 const RemoveChannelModal = ({ show, channel, onClose }) => {
   const { t } = useTranslation()

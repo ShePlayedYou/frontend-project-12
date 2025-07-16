@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import DropdownChannelsList from './DropdownChannelsList.jsx'
-import { useGetChannelsQuery } from '../slices/apiSlice.js'
+import { useGetChannelsQuery } from '../slices/channelsApi.js'
 import { useSelector } from 'react-redux'
 
 const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
