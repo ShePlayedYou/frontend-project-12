@@ -76,7 +76,6 @@ const BuildRegPage = () => {
                   value={formik.values.username}
                   onBlur={formik.handleBlur}
                   name="username"
-                  autoComplete="username"
                   required
                   type="text"
                   placeholder={t('register.usernamePlaceholder')}
@@ -98,7 +97,6 @@ const BuildRegPage = () => {
                   value={formik.values.password}
                   onBlur={formik.handleBlur}
                   name="password"
-                  autoComplete="current-password"
                   required
                   type="password"
                   placeholder={t('register.passwordPlaceholder')}
@@ -117,7 +115,6 @@ const BuildRegPage = () => {
                   value={formik.values.repeatPassword}
                   onBlur={formik.handleBlur}
                   name="repeatPassword"
-                  autoComplete="current-password"
                   required
                   type="password"
                   placeholder={t('register.repeatPasswordPlaceholder')}

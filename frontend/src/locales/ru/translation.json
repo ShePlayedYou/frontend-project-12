@@ -88,7 +88,8 @@
         "channelCreated": "Канал создан",
         "unknownError": "Неизвестная ошибка",
         "renameChannel": "Канал переименован",
-        "removeChannel": "Канал удалён"
+        "removeChannel": "Канал удалён",
+        "channelsLoadError": "Ошибка загрузки каналов"
         }
     }
 

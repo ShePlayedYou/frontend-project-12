@@ -1,17 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import routes from '../routes.js'
+import { baseQueryWithRedirect } from './baseQueryWithRedirect.js'
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
-  baseQuery: fetchBaseQuery({
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
-      }
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithRedirect,
   tagTypes: ['Channels'],
   endpoints: builder => ({
     getChannels: builder.query({

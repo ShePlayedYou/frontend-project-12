@@ -49,7 +49,6 @@ const BuildLoginPage = () => {
                   onChange={formik.handleChange}
                   value={formik.values.username}
                   name="username"
-                  autoComplete="username"
                   required
                   type="text"
                   placeholder={t('loginUsername')}
@@ -63,7 +62,6 @@ const BuildLoginPage = () => {
                   onChange={formik.handleChange}
                   value={formik.values.password}
                   name="password"
-                  autoComplete="current-password"
                   required
                   type="password"
                   placeholder={t('loginPassword')}

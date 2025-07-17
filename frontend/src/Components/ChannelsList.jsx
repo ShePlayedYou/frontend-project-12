@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 import DropdownChannelsList from './DropdownChannelsList.jsx'
 import { useGetChannelsQuery } from '../slices/channelsApi.js'
 import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
   const { t } = useTranslation()
@@ -9,8 +11,13 @@ const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
   const { data: channels = [], isLoading, isError } = useGetChannelsQuery()
   const curChannel = useSelector(state => state.currentChannel.current)
 
+    useEffect(() => {
+    if (isError) {
+      toast.error(t('toasterMessages.channelsLoadError'))
+    }
+  }, [isError, t])
+
   if (isLoading) return <p className="p-3">{t('loading')}</p>
-  if (isError) return <p className="text-danger p-3">{t('errors.channelsLoadError')}</p>
 
   return (
     <ul

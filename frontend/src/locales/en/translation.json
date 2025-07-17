@@ -89,6 +89,7 @@
     "channelCreated": "Channel created",
     "unknownError": "Unknown error",
     "renameChannel": "Channel renamed",
-    "removeChannel": "Channel removed"
+    "removeChannel": "Channel removed",
+    "channelsLoadError": "Channels load error"
   }
 }
