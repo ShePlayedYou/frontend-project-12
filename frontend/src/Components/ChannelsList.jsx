@@ -11,7 +11,7 @@ const ChannelsList = ({ onChannelSelect, onRename, onRemove }) => {
   const { data: channels = [], isLoading, isError } = useGetChannelsQuery()
   const curChannel = useSelector(state => state.currentChannel.current)
 
-    useEffect(() => {
+  useEffect(() => {
     if (isError) {
       toast.error(t('toasterMessages.channelsLoadError'))
     }
